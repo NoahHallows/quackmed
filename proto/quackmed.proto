@@ -18,6 +18,17 @@ message login_result {
   bytes token = 2;
 }
 
+message register_result {
+  bool success = 1;
+  bytes token = 2;
+}
+
+message register_request {
+  string username = 1;
+  bytes password = 2;
+  bytes salt = 3;
+}
+
 // Appointment book
 message appointment_book_request {
   int32 start_time = 1;
@@ -52,11 +63,12 @@ message update_slot_result {
 }
 
 service LoginService {
-  rpc get_salt(salt_request) returns (password_salt);
-  rpc login(login_request) returns (login_result);
+  rpc GetSalt(salt_request) returns (password_salt);
+  rpc Login(login_request) returns (login_result);
+  rpc CreateAccount(register_request) returns (register_result);
 }
 
 service appointmentService {
-  rpc get_appointment_book(appointment_book_request) returns (appointment_book);
-  rpc update_appointment_book(update_slot) returns (update_slot_result);
+  rpc GetAppointmentBook(appointment_book_request) returns (appointment_book);
+  rpc UpdateAppointmentBook(update_slot) returns (update_slot_result);
 }

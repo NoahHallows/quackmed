@@ -1,0 +1,25 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash BYTEA NOT NULL,
+    salt BYTEA NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE patients (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    date_of_birth TIMESTAMP
+);
+
+CREATE TABLE AppointmentBook (
+    id SERIAL PRIMARY KEY,
+    owner_id INTEGER NOT NULL,
+    patient_id INTEGER NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL,
+    slot_type INTEGER NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
+);
