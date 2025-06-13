@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+// Login
+message login_request {
+  string username = 1;
+  bytes password = 2;
+}
+message password_salt {
+  bytes salt = 1;
+}
+
+message salt_request {
+  string username = 1;
+}
+
+message login_result {
+  bool success = 1;
+  bytes token = 2;
+}
+
+// Appointment book
+message appointment_book_request {
+  int32 start_time = 1;
+  int32 end_time = 2;
+}
+
+message time_slot_response {
+  // When does the time block start and end?
+  int32 start_time = 1;
+  int32 end_time = 2;
+  // What type is it, eg 1 for appointment, 2 for free ect
+  int32 type = 3;
+  // Who is the owner of this block, ie who is this block with
+  string owner = 4;
+  string patient = 5;
+}
+
+message appointment_book {
+  repeated time_slot_response slot = 1;
+}
+
+// eg for creating appointments
+message update_slot {
+  int32 start_time = 1;
+  int32 end_time = 2;
+  int32 new_type = 3;
+  string patient = 4;
+}
+
+message update_slot_result {
+  bool success = 1;
+}
+
+service LoginService {
+  rpc get_salt(salt_request) returns (password_salt);
+  rpc login(login_request) returns (login_result);
+}
+
+service appointmentService {
+  rpc get_appointment_book(appointment_book_request) returns (appointment_book);
+  rpc update_appointment_book(update_slot) returns (update_slot_result);
+}
