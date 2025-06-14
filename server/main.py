@@ -4,6 +4,8 @@ import grpc
 import psycopg2
 import bcrypt
 import secrets
+import _credentials
+import contextlib
 
 import quackmed_pb2
 import quackmed_pb2_grpc
@@ -11,6 +13,12 @@ import quackmed_pb2_grpc
 USERNAME = "noah"
 PASSWORD = "amicia"
 HOST = "127.0.0.1"
+
+
+_LISTEN_ADDRESS_TEMPLATE = "localhost:%d"
+_AUTH_HEADER_KEY = "authorization"
+_AUTH_HEADER_VALUE = "Bearer example_oauth2_token"
+
 
 # Authenticated TOKENS
 TOKENS = {}
@@ -36,20 +44,25 @@ def db_binary_to_binary(db_binary):
             binary = binary + byte
     return binary
 
-# Server interceptor for token validation
+
 class AuthInterceptor(grpc.ServerInterceptor):
+    def __init__(self):
+        def abort(ignored_request, context):
+            context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid signature")
+
+        self._abort_handler = grpc.unary_unary_rpc_method_handler(abort)
+
     def intercept_service(self, continuation, handler_call_details):
-        if handler_call_details.method == "/AuthService/Login":
+        # Example HandlerCallDetails object:
+        #     _HandlerCallDetails(
+        #       method=u'/helloworld.Greeter/SayHello',
+        #       invocation_metadata=...)
+        expected_metadata = (_AUTH_HEADER_KEY, _AUTH_HEADER_VALUE)
+        if expected_metadata in handler_call_details.invocation_metadata:
             return continuation(handler_call_details)
+        else:
+            return self._abort_handler
 
-        metadata = dict(handler_call_details.invocation_metadata)
-        token = metadata.get("authorization")
-
-        if token not in TOKENS.values():
-            context = grpc.ServicerContext()
-            context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid token")
-
-        return continuation(handler_call_details)
 
 class AuthService(quackmed_pb2_grpc.AuthService):
     def CheckUserExists(self, request, context):
@@ -132,14 +145,42 @@ class AppointmentService(quackmed_pb2_grpc.appointmentService):
         pass
 
 
+@contextlib.contextmanager
+def run_server(port):
+    # Bind interceptor to server
+    server = grpc.server(
+        futures.ThreadPoolExecutor(),
+        interceptors=(AuthInterceptor(),),
+    )
+    quackmed_pb2_grpc.add_AuthServiceServicer_to_server(AuthService(), server)
+
+    # Loading credentials
+    server_credentials = grpc.ssl_server_credentials(
+        (
+            (
+                _credentials.SERVER_CERTIFICATE_KEY,
+                _credentials.SERVER_CERTIFICATE,
+            ),
+        )
+    )
+
+    # Pass down credentials
+    port = server.add_secure_port(
+        _LISTEN_ADDRESS_TEMPLATE % port, server_credentials
+    )
+
+    server.start()
+    try:
+        yield server, port
+    finally:
+        server.stop(0)
+
+
 def serve():
     print("Starting server...")
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10), interceptors=(AuthInterceptor(),))
-    quackmed_pb2_grpc.add_AuthServiceServicer_to_server(AuthService(), server)
-    server.add_insecure_port("[::]:50051")
-    server.start()
-    server.wait_for_termination()
-    
+    with run_server(50051) as (server, port):
+        server.wait_for_termination()
+
 
 
 if __name__ == "__main__":
