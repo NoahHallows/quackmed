@@ -9,9 +9,10 @@ def login(username, password):
     stub = quackmed_pb2_grpc.LoginServiceStub(channel)
     print("DAGDGADG")
     response = stub.GetSalt(quackmed_pb2.salt_request(username=username))
+    print(response.salt)
     password_hash = bcrypt.hashpw(password.encode(), response.salt)
-    print(type(password_hash))
-    print(type(username))
+    print(password_hash)
+    print(username)
     response = stub.Login(quackmed_pb2.login_request(username=username, password=password_hash))
     return response
 
@@ -27,6 +28,7 @@ if __name__ == "__main__":
     username = input("Enter username: ")
     password = input("Enter password: ")
     option = input("Create account or login (1, 2)")
+    print(username)
     if option == "1":
         create_account(username, password)
     if option == "2":

@@ -26,23 +26,31 @@ except:
     print("Connection error")
     exit()
 
+def db_binary_to_binary(db_binary):
+    binary = b''
+    for collumn in db_binary:
+        for byte in collumn:
+            binary = binary + byte
+    return binary
+
 class LoginService:
     def GetSalt(self, request, context):
-        cur.execute("SELECT salt FROM users WHERE username = %s", (request.username,))
-        row = cur.fetchone()
-        if row is None:
+        cur.execute("SELECT salt FROM users WHERE username = %s;", (request.username,))
+        rows = cur.fetchall()
+        #if rows is None:
             # Handle user not found
-            return quackmed_pb2.password_salt(salt=b"")  # or raise an error
+        #    return quackmed_pb2.password_salt(salt=b"")  # or raise an error
 
-        salt = row[0]
+        salt = db_binary_to_binary(rows[0])
         print(salt)
         return quackmed_pb2.password_salt(salt=salt)
 
     def Login(self, request, context):
         print("ADGGD")
+        print(f"request: {request.username}, password: {request.password}")
         cur.execute("SELECT password_hash FROM users where username = %s", (request.username,))
-        password_hash = cur.fetchone()
-        password_hash = b'1010101010'
+        password_hash_raw = cur.fetchone()
+        password_hash = db_binary_to_binary(password_hash_raw[0])
         print(f"Username: {request.username}, password_hash: {password_hash}, sent password hash: {request.password}")
         print(type(password_hash))
         print(type(request.password))
