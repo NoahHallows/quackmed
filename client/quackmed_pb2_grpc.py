@@ -49,6 +49,11 @@ class LoginServiceStub(object):
                 request_serializer=quackmed__pb2.register_request.SerializeToString,
                 response_deserializer=quackmed__pb2.register_result.FromString,
                 _registered_method=True)
+        self.CheckUserExists = channel.unary_unary(
+                '/LoginService/CheckUserExists',
+                request_serializer=quackmed__pb2.user_exists_request.SerializeToString,
+                response_deserializer=quackmed__pb2.user_exists_response.FromString,
+                _registered_method=True)
 
 
 class LoginServiceServicer(object):
@@ -72,6 +77,12 @@ class LoginServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CheckUserExists(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_LoginServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -89,6 +100,11 @@ def add_LoginServiceServicer_to_server(servicer, server):
                     servicer.CreateAccount,
                     request_deserializer=quackmed__pb2.register_request.FromString,
                     response_serializer=quackmed__pb2.register_result.SerializeToString,
+            ),
+            'CheckUserExists': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckUserExists,
+                    request_deserializer=quackmed__pb2.user_exists_request.FromString,
+                    response_serializer=quackmed__pb2.user_exists_response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -172,6 +188,33 @@ class LoginService(object):
             '/LoginService/CreateAccount',
             quackmed__pb2.register_request.SerializeToString,
             quackmed__pb2.register_result.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CheckUserExists(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/LoginService/CheckUserExists',
+            quackmed__pb2.user_exists_request.SerializeToString,
+            quackmed__pb2.user_exists_response.FromString,
             options,
             channel_credentials,
             insecure,

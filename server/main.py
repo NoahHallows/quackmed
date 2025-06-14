@@ -34,30 +34,43 @@ def db_binary_to_binary(db_binary):
     return binary
 
 class LoginService:
-    def GetSalt(self, request, context):
-        cur.execute("SELECT salt FROM users WHERE username = %s;", (request.username,))
-        rows = cur.fetchall()
-        #if rows is None:
-            # Handle user not found
-        #    return quackmed_pb2.password_salt(salt=b"")  # or raise an error
+    def CheckUserExists(self, request, context):
+        cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
+        exists = cur.fetchone() is not None
+        return quackmed_pb2.user_exists_response(exists=exists)
 
-        salt = db_binary_to_binary(rows[0])
+
+    def GetSalt(self, request, context):
+        salt = b''
+        cur.execute("SELECT salt FROM users WHERE username = %s;", (request.username,))
+        rows = cur.fetchone()
+        print(rows)
+        if rows != None:
+            print("here")
+            salt = db_binary_to_binary(rows[0])
+
         print(salt)
         return quackmed_pb2.password_salt(salt=salt)
 
     def Login(self, request, context):
-        print("ADGGD")
-        print(f"request: {request.username}, password: {request.password}")
-        cur.execute("SELECT password_hash FROM users where username = %s", (request.username,))
-        password_hash_raw = cur.fetchone()
-        password_hash = db_binary_to_binary(password_hash_raw[0])
+        print(f"Username: {request.username}, password: {request.password}")
+        try:
+            cur.execute("SELECT password_hash FROM users where username = %s", (request.username,))
+            password_hash_raw = cur.fetchall()
+            password_hash = db_binary_to_binary(password_hash_raw[0])
+        except:
+            print("Password not found")
+            password_hash = b''
         print(f"Username: {request.username}, password_hash: {password_hash}, sent password hash: {request.password}")
-        print(type(password_hash))
-        print(type(request.password))
-        result = bcrypt.checkpw(password_hash, request.password)
-        print(result)
-        token = secrets.token_bytes(4)
-        return quackmed_pb2.login_result(success=True, token=token)
+        if (password_hash == request.password):
+            result = True
+            token = secrets.token_bytes(4)
+            print(token)
+
+        else:
+            result = False
+            token = b''
+        return quackmed_pb2.login_result(success=result, token=token)
 
     def CreateAccount(self, request, context):
         print("Creating user")

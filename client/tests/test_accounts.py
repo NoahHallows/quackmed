@@ -6,7 +6,9 @@ from client_backend import login, create_account
 def login_test_func(username, password):
     res = login(username, password)
     token = res.token
-    if type(token) == 'bytes' and success == True:
+    print(type(token))
+    print(res.success)
+    if isinstance(token, bytes) and res.success == True:
         return True
     else:
         return False
@@ -27,14 +29,19 @@ def create_account_test_func(username, password):
 #        self.assertTrue(create_account_test_func(username, password))
 
 class TestLogin(unittest.TestCase):
-    def test_login1(self):
+    def test_correct(self):
         username = 'noah'
         password = 'amicia'
         self.assertTrue(login_test_func(username, password))
 
-#    def test_login2(self):
-#        username = 'The Doctor'
-#        password = 'gdongdog'
-#        self.assertTrue(login_test_func(username, password))
+    def test_non_existent_user_and_passwd(self):
+        username = 'The Doctor'
+        password = 'gdongdog'
+        self.assertTrue(login_test_func(username, password))
+
+    def test_incorrect_passwd(self):
+        username = 'noah'
+        password = 'wornggggg'
+        self.assertFalse(login_test_func(username, password))
 
 

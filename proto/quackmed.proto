@@ -9,6 +9,14 @@ message password_salt {
   bytes salt = 1;
 }
 
+message user_exists_request {
+  string username = 1;
+}
+
+message user_exists_response {
+  bool exists = 1;
+}
+
 message salt_request {
   string username = 1;
 }
@@ -66,6 +74,7 @@ service LoginService {
   rpc GetSalt(salt_request) returns (password_salt);
   rpc Login(login_request) returns (login_result);
   rpc CreateAccount(register_request) returns (register_result);
+  rpc CheckUserExists(user_exists_request) returns (user_exists_response);
 }
 
 service appointmentService {

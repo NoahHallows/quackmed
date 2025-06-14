@@ -8,21 +8,29 @@ def login(username, password):
     channel = grpc.insecure_channel("localhost:50051")
     stub = quackmed_pb2_grpc.LoginServiceStub(channel)
     print("DAGDGADG")
-    response = stub.GetSalt(quackmed_pb2.salt_request(username=username))
-    print(response.salt)
-    password_hash = bcrypt.hashpw(password.encode(), response.salt)
-    print(password_hash)
-    print(username)
-    response = stub.Login(quackmed_pb2.login_request(username=username, password=password_hash))
-    return response
+    response = stub.CheckUserExists(quackmed_pb2.user_exists_request(username=username))
+    if response.exists:
+        response = stub.GetSalt(quackmed_pb2.salt_request(username=username))
+        print(response.salt)
+        password_hash = bcrypt.hashpw(password.encode(), response.salt)
+        print(password_hash)
+        print(username)
+        response = stub.Login(quackmed_pb2.login_request(username=username, password=password_hash))
+        return response
+    else:
+        return False
 
 def create_account(username, password):
-    salt = bcrypt.gensalt()
-    password_hash = bcrypt.hashpw(password.encode(), salt)
     channel = grpc.insecure_channel("localhost:50051")
     stub = quackmed_pb2_grpc.LoginServiceStub(channel)
-    response = stub.CreateAccount(quackmed_pb2.register_request(username=username, password=password_hash, salt=salt))
-    return response
+    response = stub.CheckUserExists(quackmed_pb2.user_exists_request(username=username))
+    if not response.exists:
+        salt = bcrypt.gensalt()
+        password_hash = bcrypt.hashpw(password.encode(), salt)
+        response = stub.CreateAccount(quackmed_pb2.register_request(username=username, password=password_hash, salt=salt))
+        return response
+    else:
+        return False
 
 if __name__ == "__main__":
     username = input("Enter username: ")
