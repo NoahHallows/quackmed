@@ -5,10 +5,13 @@ message login_request {
   string username = 1;
   bytes password = 2;
 }
-message password_salt {
-  bytes salt = 1;
+
+message login_result {
+  bool success = 1;
+  bytes token = 2;
 }
 
+// Check is a user exists
 message user_exists_request {
   string username = 1;
 }
@@ -17,15 +20,16 @@ message user_exists_response {
   bool exists = 1;
 }
 
+// Get salt
 message salt_request {
   string username = 1;
 }
 
-message login_result {
-  bool success = 1;
-  bytes token = 2;
+message password_salt {
+  bytes salt = 1;
 }
 
+// Register
 message register_result {
   bool success = 1;
   bytes token = 2;
@@ -37,6 +41,23 @@ message register_request {
   bytes salt = 3;
 }
 
+// Delete user
+message delete_request {
+  string username = 1;
+}
+
+message delete_result {
+  bool success = 1;
+}
+
+// Logout
+message logout_request {
+  string username = 1;
+}
+
+message logout_response {
+  bool success = 1;
+}
 // Appointment book
 message appointment_book_request {
   int32 start_time = 1;
@@ -70,11 +91,13 @@ message update_slot_result {
   bool success = 1;
 }
 
-service LoginService {
+service AuthService {
   rpc GetSalt(salt_request) returns (password_salt);
   rpc Login(login_request) returns (login_result);
   rpc CreateAccount(register_request) returns (register_result);
   rpc CheckUserExists(user_exists_request) returns (user_exists_response);
+  rpc DeleteUser(delete_request) returns (delete_result);
+  rpc Logout(logout_request) returns (logout_response);
 }
 
 service appointmentService {

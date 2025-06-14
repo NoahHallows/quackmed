@@ -25,7 +25,7 @@ if _version_not_supported:
     )
 
 
-class LoginServiceStub(object):
+class AuthServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -35,28 +35,38 @@ class LoginServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetSalt = channel.unary_unary(
-                '/LoginService/GetSalt',
+                '/AuthService/GetSalt',
                 request_serializer=quackmed__pb2.salt_request.SerializeToString,
                 response_deserializer=quackmed__pb2.password_salt.FromString,
                 _registered_method=True)
         self.Login = channel.unary_unary(
-                '/LoginService/Login',
+                '/AuthService/Login',
                 request_serializer=quackmed__pb2.login_request.SerializeToString,
                 response_deserializer=quackmed__pb2.login_result.FromString,
                 _registered_method=True)
         self.CreateAccount = channel.unary_unary(
-                '/LoginService/CreateAccount',
+                '/AuthService/CreateAccount',
                 request_serializer=quackmed__pb2.register_request.SerializeToString,
                 response_deserializer=quackmed__pb2.register_result.FromString,
                 _registered_method=True)
         self.CheckUserExists = channel.unary_unary(
-                '/LoginService/CheckUserExists',
+                '/AuthService/CheckUserExists',
                 request_serializer=quackmed__pb2.user_exists_request.SerializeToString,
                 response_deserializer=quackmed__pb2.user_exists_response.FromString,
                 _registered_method=True)
+        self.DeleteUser = channel.unary_unary(
+                '/AuthService/DeleteUser',
+                request_serializer=quackmed__pb2.delete_request.SerializeToString,
+                response_deserializer=quackmed__pb2.delete_result.FromString,
+                _registered_method=True)
+        self.Logout = channel.unary_unary(
+                '/AuthService/Logout',
+                request_serializer=quackmed__pb2.logout_request.SerializeToString,
+                response_deserializer=quackmed__pb2.logout_response.FromString,
+                _registered_method=True)
 
 
-class LoginServiceServicer(object):
+class AuthServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetSalt(self, request, context):
@@ -83,8 +93,20 @@ class LoginServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def DeleteUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
-def add_LoginServiceServicer_to_server(servicer, server):
+    def Logout(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_AuthServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetSalt': grpc.unary_unary_rpc_method_handler(
                     servicer.GetSalt,
@@ -106,15 +128,25 @@ def add_LoginServiceServicer_to_server(servicer, server):
                     request_deserializer=quackmed__pb2.user_exists_request.FromString,
                     response_serializer=quackmed__pb2.user_exists_response.SerializeToString,
             ),
+            'DeleteUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteUser,
+                    request_deserializer=quackmed__pb2.delete_request.FromString,
+                    response_serializer=quackmed__pb2.delete_result.SerializeToString,
+            ),
+            'Logout': grpc.unary_unary_rpc_method_handler(
+                    servicer.Logout,
+                    request_deserializer=quackmed__pb2.logout_request.FromString,
+                    response_serializer=quackmed__pb2.logout_response.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'LoginService', rpc_method_handlers)
+            'AuthService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('LoginService', rpc_method_handlers)
+    server.add_registered_method_handlers('AuthService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class LoginService(object):
+class AuthService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -131,7 +163,7 @@ class LoginService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/LoginService/GetSalt',
+            '/AuthService/GetSalt',
             quackmed__pb2.salt_request.SerializeToString,
             quackmed__pb2.password_salt.FromString,
             options,
@@ -158,7 +190,7 @@ class LoginService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/LoginService/Login',
+            '/AuthService/Login',
             quackmed__pb2.login_request.SerializeToString,
             quackmed__pb2.login_result.FromString,
             options,
@@ -185,7 +217,7 @@ class LoginService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/LoginService/CreateAccount',
+            '/AuthService/CreateAccount',
             quackmed__pb2.register_request.SerializeToString,
             quackmed__pb2.register_result.FromString,
             options,
@@ -212,9 +244,63 @@ class LoginService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/LoginService/CheckUserExists',
+            '/AuthService/CheckUserExists',
             quackmed__pb2.user_exists_request.SerializeToString,
             quackmed__pb2.user_exists_response.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeleteUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/AuthService/DeleteUser',
+            quackmed__pb2.delete_request.SerializeToString,
+            quackmed__pb2.delete_result.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Logout(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/AuthService/Logout',
+            quackmed__pb2.logout_request.SerializeToString,
+            quackmed__pb2.logout_response.FromString,
             options,
             channel_credentials,
             insecure,

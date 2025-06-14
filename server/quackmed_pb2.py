@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0equackmed.proto\"3\n\rlogin_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\"\x1d\n\rpassword_salt\x12\x0c\n\x04salt\x18\x01 \x01(\x0c\"\'\n\x13user_exists_request\x12\x10\n\x08username\x18\x01 \x01(\t\"&\n\x14user_exists_response\x12\x0e\n\x06\x65xists\x18\x01 \x01(\x08\" \n\x0csalt_request\x12\x10\n\x08username\x18\x01 \x01(\t\".\n\x0clogin_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\x0c\"1\n\x0fregister_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\x0c\"D\n\x10register_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\x12\x0c\n\x04salt\x18\x03 \x01(\x0c\"@\n\x18\x61ppointment_book_request\x12\x12\n\nstart_time\x18\x01 \x01(\x05\x12\x10\n\x08\x65nd_time\x18\x02 \x01(\x05\"h\n\x12time_slot_response\x12\x12\n\nstart_time\x18\x01 \x01(\x05\x12\x10\n\x08\x65nd_time\x18\x02 \x01(\x05\x12\x0c\n\x04type\x18\x03 \x01(\x05\x12\r\n\x05owner\x18\x04 \x01(\t\x12\x0f\n\x07patient\x18\x05 \x01(\t\"5\n\x10\x61ppointment_book\x12!\n\x04slot\x18\x01 \x03(\x0b\x32\x13.time_slot_response\"V\n\x0bupdate_slot\x12\x12\n\nstart_time\x18\x01 \x01(\x05\x12\x10\n\x08\x65nd_time\x18\x02 \x01(\x05\x12\x10\n\x08new_type\x18\x03 \x01(\x05\x12\x0f\n\x07patient\x18\x04 \x01(\t\"%\n\x12update_slot_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xd6\x01\n\x0cLoginService\x12(\n\x07GetSalt\x12\r.salt_request\x1a\x0e.password_salt\x12&\n\x05Login\x12\x0e.login_request\x1a\r.login_result\x12\x34\n\rCreateAccount\x12\x11.register_request\x1a\x10.register_result\x12>\n\x0f\x43heckUserExists\x12\x14.user_exists_request\x1a\x15.user_exists_response2\x94\x01\n\x12\x61ppointmentService\x12\x42\n\x12GetAppointmentBook\x12\x19.appointment_book_request\x1a\x11.appointment_book\x12:\n\x15UpdateAppointmentBook\x12\x0c.update_slot\x1a\x13.update_slot_resultb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0equackmed.proto\"3\n\rlogin_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\".\n\x0clogin_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\x0c\"\'\n\x13user_exists_request\x12\x10\n\x08username\x18\x01 \x01(\t\"&\n\x14user_exists_response\x12\x0e\n\x06\x65xists\x18\x01 \x01(\x08\" \n\x0csalt_request\x12\x10\n\x08username\x18\x01 \x01(\t\"\x1d\n\rpassword_salt\x12\x0c\n\x04salt\x18\x01 \x01(\x0c\"1\n\x0fregister_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\x0c\"D\n\x10register_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\x12\x0c\n\x04salt\x18\x03 \x01(\x0c\"\"\n\x0e\x64\x65lete_request\x12\x10\n\x08username\x18\x01 \x01(\t\" \n\rdelete_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\"\n\x0elogout_request\x12\x10\n\x08username\x18\x01 \x01(\t\"\"\n\x0flogout_response\x12\x0f\n\x07success\x18\x01 \x01(\x08\"@\n\x18\x61ppointment_book_request\x12\x12\n\nstart_time\x18\x01 \x01(\x05\x12\x10\n\x08\x65nd_time\x18\x02 \x01(\x05\"h\n\x12time_slot_response\x12\x12\n\nstart_time\x18\x01 \x01(\x05\x12\x10\n\x08\x65nd_time\x18\x02 \x01(\x05\x12\x0c\n\x04type\x18\x03 \x01(\x05\x12\r\n\x05owner\x18\x04 \x01(\t\x12\x0f\n\x07patient\x18\x05 \x01(\t\"5\n\x10\x61ppointment_book\x12!\n\x04slot\x18\x01 \x03(\x0b\x32\x13.time_slot_response\"V\n\x0bupdate_slot\x12\x12\n\nstart_time\x18\x01 \x01(\x05\x12\x10\n\x08\x65nd_time\x18\x02 \x01(\x05\x12\x10\n\x08new_type\x18\x03 \x01(\x05\x12\x0f\n\x07patient\x18\x04 \x01(\t\"%\n\x12update_slot_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xb1\x02\n\x0b\x41uthService\x12(\n\x07GetSalt\x12\r.salt_request\x1a\x0e.password_salt\x12&\n\x05Login\x12\x0e.login_request\x1a\r.login_result\x12\x34\n\rCreateAccount\x12\x11.register_request\x1a\x10.register_result\x12>\n\x0f\x43heckUserExists\x12\x14.user_exists_request\x1a\x15.user_exists_response\x12-\n\nDeleteUser\x12\x0f.delete_request\x1a\x0e.delete_result\x12+\n\x06Logout\x12\x0f.logout_request\x1a\x10.logout_response2\x94\x01\n\x12\x61ppointmentService\x12\x42\n\x12GetAppointmentBook\x12\x19.appointment_book_request\x1a\x11.appointment_book\x12:\n\x15UpdateAppointmentBook\x12\x0c.update_slot\x1a\x13.update_slot_resultb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,32 +33,40 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_LOGIN_REQUEST']._serialized_start=18
   _globals['_LOGIN_REQUEST']._serialized_end=69
-  _globals['_PASSWORD_SALT']._serialized_start=71
-  _globals['_PASSWORD_SALT']._serialized_end=100
-  _globals['_USER_EXISTS_REQUEST']._serialized_start=102
-  _globals['_USER_EXISTS_REQUEST']._serialized_end=141
-  _globals['_USER_EXISTS_RESPONSE']._serialized_start=143
-  _globals['_USER_EXISTS_RESPONSE']._serialized_end=181
-  _globals['_SALT_REQUEST']._serialized_start=183
-  _globals['_SALT_REQUEST']._serialized_end=215
-  _globals['_LOGIN_RESULT']._serialized_start=217
-  _globals['_LOGIN_RESULT']._serialized_end=263
+  _globals['_LOGIN_RESULT']._serialized_start=71
+  _globals['_LOGIN_RESULT']._serialized_end=117
+  _globals['_USER_EXISTS_REQUEST']._serialized_start=119
+  _globals['_USER_EXISTS_REQUEST']._serialized_end=158
+  _globals['_USER_EXISTS_RESPONSE']._serialized_start=160
+  _globals['_USER_EXISTS_RESPONSE']._serialized_end=198
+  _globals['_SALT_REQUEST']._serialized_start=200
+  _globals['_SALT_REQUEST']._serialized_end=232
+  _globals['_PASSWORD_SALT']._serialized_start=234
+  _globals['_PASSWORD_SALT']._serialized_end=263
   _globals['_REGISTER_RESULT']._serialized_start=265
   _globals['_REGISTER_RESULT']._serialized_end=314
   _globals['_REGISTER_REQUEST']._serialized_start=316
   _globals['_REGISTER_REQUEST']._serialized_end=384
-  _globals['_APPOINTMENT_BOOK_REQUEST']._serialized_start=386
-  _globals['_APPOINTMENT_BOOK_REQUEST']._serialized_end=450
-  _globals['_TIME_SLOT_RESPONSE']._serialized_start=452
-  _globals['_TIME_SLOT_RESPONSE']._serialized_end=556
-  _globals['_APPOINTMENT_BOOK']._serialized_start=558
-  _globals['_APPOINTMENT_BOOK']._serialized_end=611
-  _globals['_UPDATE_SLOT']._serialized_start=613
-  _globals['_UPDATE_SLOT']._serialized_end=699
-  _globals['_UPDATE_SLOT_RESULT']._serialized_start=701
-  _globals['_UPDATE_SLOT_RESULT']._serialized_end=738
-  _globals['_LOGINSERVICE']._serialized_start=741
-  _globals['_LOGINSERVICE']._serialized_end=955
-  _globals['_APPOINTMENTSERVICE']._serialized_start=958
-  _globals['_APPOINTMENTSERVICE']._serialized_end=1106
+  _globals['_DELETE_REQUEST']._serialized_start=386
+  _globals['_DELETE_REQUEST']._serialized_end=420
+  _globals['_DELETE_RESULT']._serialized_start=422
+  _globals['_DELETE_RESULT']._serialized_end=454
+  _globals['_LOGOUT_REQUEST']._serialized_start=456
+  _globals['_LOGOUT_REQUEST']._serialized_end=490
+  _globals['_LOGOUT_RESPONSE']._serialized_start=492
+  _globals['_LOGOUT_RESPONSE']._serialized_end=526
+  _globals['_APPOINTMENT_BOOK_REQUEST']._serialized_start=528
+  _globals['_APPOINTMENT_BOOK_REQUEST']._serialized_end=592
+  _globals['_TIME_SLOT_RESPONSE']._serialized_start=594
+  _globals['_TIME_SLOT_RESPONSE']._serialized_end=698
+  _globals['_APPOINTMENT_BOOK']._serialized_start=700
+  _globals['_APPOINTMENT_BOOK']._serialized_end=753
+  _globals['_UPDATE_SLOT']._serialized_start=755
+  _globals['_UPDATE_SLOT']._serialized_end=841
+  _globals['_UPDATE_SLOT_RESULT']._serialized_start=843
+  _globals['_UPDATE_SLOT_RESULT']._serialized_end=880
+  _globals['_AUTHSERVICE']._serialized_start=883
+  _globals['_AUTHSERVICE']._serialized_end=1188
+  _globals['_APPOINTMENTSERVICE']._serialized_start=1191
+  _globals['_APPOINTMENTSERVICE']._serialized_end=1339
 # @@protoc_insertion_point(module_scope)
