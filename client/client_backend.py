@@ -13,7 +13,6 @@ class accounts:
            self.intialise_conn('unauthorised')
 
     def intialise_conn(self, token):
-        print(token)
         # Call credential object will be invoked for every single RPC
         call_credentials = grpc.access_token_call_credentials(
             token
@@ -32,9 +31,8 @@ class accounts:
 
 
     def login(self, username, password):
-        print(f"{username}, {password}")
         response = self.stub.CheckUserExists(quackmed_pb2.user_exists_request(username=username))
-        if True:
+        if response.exists:
             response = self.stub.GetSalt(quackmed_pb2.salt_request(username=username))
             password_hash = bcrypt.hashpw(password.encode(), response.salt)
             response = self.stub.Login(quackmed_pb2.login_request(username=username, password=password_hash))

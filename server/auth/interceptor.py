@@ -35,7 +35,7 @@ class AuthInterceptor(grpc.ServerInterceptor):
             return grpc.unary_unary_rpc_method_handler(deny)
 
         token = auth_header[len("Bearer "):]
-
+        
         #if token in REVOKED_TOKENS:
         #    return grpc.unary_unary_rpc_method_handler(
         #        lambda _, ctx: ctx.abort(grpc.StatusCode.UNAUTHENTICATED, "Token revoked")

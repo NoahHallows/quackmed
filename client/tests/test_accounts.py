@@ -7,6 +7,7 @@ from client_backend import accounts
 class TestCreateAccount(unittest.TestCase):
     def setUp(self):
         self.account_manager = accounts()
+        self.account_manager.login('noah', 'amicia')
     
     def test_create_account1(self):
         length = random.randint(1, 50)
@@ -20,7 +21,7 @@ class TestCreateAccount(unittest.TestCase):
         # Test login with created account
         login_success, token = self.account_manager.login(username, password)
         self.assertTrue(login_success)
-        self.assertIsInstance(token, bytes)
+        self.assertIsInstance(token, str)
         
         # Clean up - delete the test account
         delete_result = self.account_manager.delete_user(username)
@@ -35,7 +36,7 @@ class TestLogin(unittest.TestCase):
         password = 'amicia'
         success, token = self.account_manager.login(username, password)
         self.assertTrue(success)
-        self.assertIsInstance(token, bytes)
+        self.assertIsInstance(token, str)
 
     def test_non_existent_user(self):
         username = 'The_Doctor_' + ''.join(random.choices(string.ascii_letters, k=10))  # Make it unique
@@ -49,11 +50,12 @@ class TestLogin(unittest.TestCase):
         password = 'wrongpassword'
         success, token = self.account_manager.login(username, password)
         self.assertFalse(success)
-        self.assertEqual(token, b'')
+        self.assertEqual(token, '')
 
 class TestDeleteAccount(unittest.TestCase):
     def setUp(self):
         self.account_manager = accounts()
+        self.account_manager.login('noah', 'amicia')
     
     def test_delete_existing_account(self):
         # First create a test account

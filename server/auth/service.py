@@ -3,6 +3,7 @@ import psycopg2
 import os
 # importing necessary functions from dotenv library
 from dotenv import load_dotenv, dotenv_values 
+from .jwt_auth import create_jwt, verify_jwt
 # loading variables from .env file
 load_dotenv() 
 
@@ -26,6 +27,14 @@ try:
 except:
     print("Connection error")
     exit()
+
+# Convert the list of bytes to a single variable
+def db_binary_to_binary(db_binary):
+    binary = b''
+    for collumn in db_binary:
+        for byte in collumn:
+            binary = binary + byte
+    return binary
 
 
 # Service for login, creating accounts ect
@@ -63,7 +72,7 @@ class AuthService(auth_pb2_grpc.AuthService):
             result = True
             token = create_jwt(request.username)
             return auth_pb2.login_result(success=result, token=token)
-        context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid credentials")
+        return auth_pb2.login_result(success=False, token='')
 
     def CreateAccount(self, request, context):
         print("Creating user")
@@ -77,11 +86,11 @@ class AuthService(auth_pb2_grpc.AuthService):
         else:
             return auth_pb2.register_result(success=False)
 
-    def DeletetUser(self, request, context):
+    def DeleteUser(self, request, context):
         print("Deleting user")
         # Check user exists
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
-        if cur.fetchone() is None:
+        if cur.fetchone() != None:
             cur.execute("DELETE FROM users WHERE username = %s", (request.username,))
             conn.commit()
             print("Done")
