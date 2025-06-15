@@ -3,6 +3,7 @@ import random
 import string
 from client_backend import accounts
 
+
 class TestCreateAccount(unittest.TestCase):
     def setUp(self):
         self.account_manager = accounts()

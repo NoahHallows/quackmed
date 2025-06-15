@@ -7,7 +7,6 @@ import _credentials
 # Auth token
 TOKEN = ''
 HOST = "localhost:50051"
-_SERVER_ADDR_TEMPLATE = "localhost:%d"
 
 class accounts:
     def __init__(self):
