@@ -72,6 +72,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.PasswordEdit, 2, 2, 1, 1)
 
+        self.AppointmentButton = QPushButton(self.centralwidget)
+        self.AppointmentButton.setObjectName(u"AppointmentButton")
+
+        self.gridLayout.addWidget(self.AppointmentButton, 0, 2, 1, 1)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -93,5 +98,6 @@ class Ui_MainWindow(object):
         self.LogoutButton.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
         self.DeleteUserButton.setText(QCoreApplication.translate("MainWindow", u"Delete user", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.AppointmentButton.setText(QCoreApplication.translate("MainWindow", u"Appointment Book", None))
     # retranslateUi
 

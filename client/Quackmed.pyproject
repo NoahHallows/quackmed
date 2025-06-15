@@ -1,8 +1,9 @@
 {
     "files": [
         "main.py",
-        "mainwindow.ui",
-        "LoginWidget.ui",
-        "deleteUser.ui"
+        "ui/mainwindow.ui",
+        "ui/LoginWidget.ui",
+        "ui/deleteUser.ui",
+        "ui/appointmentBook.ui"
     ]
 }
