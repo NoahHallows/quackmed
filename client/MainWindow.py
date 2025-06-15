@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QLabel, QLineEdit,
+from PySide6.QtWidgets import (QApplication, QGridLayout, QLabel, QLineEdit,
     QMainWindow, QMenuBar, QPushButton, QSizePolicy,
-    QStatusBar, QWidget)
+    QSpacerItem, QStatusBar, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,32 +26,51 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.formLayout = QFormLayout(self.centralwidget)
-        self.formLayout.setObjectName(u"formLayout")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.CreateUserButton = QPushButton(self.centralwidget)
+        self.CreateUserButton.setObjectName(u"CreateUserButton")
+
+        self.gridLayout.addWidget(self.CreateUserButton, 2, 3, 1, 1)
+
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
 
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label)
+        self.gridLayout.addWidget(self.label, 1, 1, 1, 1)
 
-        self.UsernameEdit = QLineEdit(self.centralwidget)
-        self.UsernameEdit.setObjectName(u"UsernameEdit")
+        self.LogoutButton = QPushButton(self.centralwidget)
+        self.LogoutButton.setObjectName(u"LogoutButton")
 
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.UsernameEdit)
+        self.gridLayout.addWidget(self.LogoutButton, 0, 3, 1, 1)
+
+        self.DeleteUserButton = QPushButton(self.centralwidget)
+        self.DeleteUserButton.setObjectName(u"DeleteUserButton")
+
+        self.gridLayout.addWidget(self.DeleteUserButton, 1, 3, 1, 1)
+
+        self.UserEdit = QLineEdit(self.centralwidget)
+        self.UserEdit.setObjectName(u"UserEdit")
+
+        self.gridLayout.addWidget(self.UserEdit, 1, 2, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer, 1, 4, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 0, 1, 1)
 
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
 
-        self.formLayout.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_2)
+        self.gridLayout.addWidget(self.label_2, 2, 1, 1, 1)
 
         self.PasswordEdit = QLineEdit(self.centralwidget)
         self.PasswordEdit.setObjectName(u"PasswordEdit")
+        self.PasswordEdit.setEchoMode(QLineEdit.EchoMode.Password)
 
-        self.formLayout.setWidget(1, QFormLayout.ItemRole.FieldRole, self.PasswordEdit)
-
-        self.LoginButton = QPushButton(self.centralwidget)
-        self.LoginButton.setObjectName(u"LoginButton")
-
-        self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.LoginButton)
+        self.gridLayout.addWidget(self.PasswordEdit, 2, 2, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -69,8 +88,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.CreateUserButton.setText(QCoreApplication.translate("MainWindow", u"Create user", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Username", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.LoginButton.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.LogoutButton.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
+        self.DeleteUserButton.setText(QCoreApplication.translate("MainWindow", u"Delete user", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
     # retranslateUi
 

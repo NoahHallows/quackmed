@@ -32,7 +32,6 @@ message password_salt {
 // Register
 message register_result {
   bool success = 1;
-  bytes token = 2;
 }
 
 message register_request {
@@ -52,42 +51,10 @@ message delete_result {
 
 // Logout
 message logout_request {
-  string username = 1;
+  string token = 1;
 }
 
 message logout_response {
-  bool success = 1;
-}
-// Appointment book
-message appointment_book_request {
-  int32 start_time = 1;
-  int32 end_time = 2;
-}
-
-message time_slot_response {
-  // When does the time block start and end?
-  int32 start_time = 1;
-  int32 end_time = 2;
-  // What type is it, eg 1 for appointment, 2 for free ect
-  int32 type = 3;
-  // Who is the owner of this block, ie who is this block with
-  string owner = 4;
-  string patient = 5;
-}
-
-message appointment_book {
-  repeated time_slot_response slot = 1;
-}
-
-// eg for creating appointments
-message update_slot {
-  int32 start_time = 1;
-  int32 end_time = 2;
-  int32 new_type = 3;
-  string patient = 4;
-}
-
-message update_slot_result {
   bool success = 1;
 }
 
@@ -100,7 +67,3 @@ service AuthService {
   rpc Logout(logout_request) returns (logout_response);
 }
 
-service appointmentService {
-  rpc GetAppointmentBook(appointment_book_request) returns (appointment_book);
-  rpc UpdateAppointmentBook(update_slot) returns (update_slot_result);
-}

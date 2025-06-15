@@ -13,6 +13,7 @@ class accounts:
            self.intialise_conn('unauthorised')
 
     def intialise_conn(self, token):
+        print(token)
         # Call credential object will be invoked for every single RPC
         call_credentials = grpc.access_token_call_credentials(
             token
@@ -56,13 +57,16 @@ class accounts:
         response = self.stub.DeleteUser(quackmed_pb2.delete_request(username=username))
         return response.success
 
+    def logout(self):
+        response = self.stub.Logout(quackmed_pb2.logout_request(token=TOKEN))
+        self.intialise_conn('unauthorised')
+
 
 if __name__ == "__main__":
     account_manager = accounts()
     username = input("Enter username: ")
     password = input("Enter password: ")
     option = input("Create account or login (1, 2): ")
-    print(username)
     if option == "1":
         result = account_manager.create_account(username, password)
         print(f"Account creation result: {result}")

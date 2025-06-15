@@ -1,2 +1,4 @@
 grpcio-tools
 psycopg2
+python-dotenv
+PyJWT
