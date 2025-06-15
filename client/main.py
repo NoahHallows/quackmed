@@ -27,6 +27,7 @@ class LoginWindow(QWidget, Ui_Login):
         print(token)
         self.w = MainWindow()
         self.w.show()
+        self.hide()
 
 
 class AppointmentWindow(QWidget, Ui_AppointmentBook):

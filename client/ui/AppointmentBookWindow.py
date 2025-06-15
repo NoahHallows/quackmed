@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QCalendarWidget, QGroupBox, QHBoxLayout,
     QHeaderView, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QTableWidget, QTableWidgetItem, QTextEdit,
-    QVBoxLayout, QWidget)
+    QTimeEdit, QVBoxLayout, QWidget)
 
 class Ui_AppointmentBook(object):
     def setupUi(self, AppointmentBook):
@@ -89,7 +89,7 @@ class Ui_AppointmentBook(object):
 
         self.formLayout.addWidget(self.timeLabel)
 
-        self.timeInput = QLineEdit(self.formGroupBox)
+        self.timeInput = QTimeEdit(self.formGroupBox)
         self.timeInput.setObjectName(u"timeInput")
 
         self.formLayout.addWidget(self.timeInput)

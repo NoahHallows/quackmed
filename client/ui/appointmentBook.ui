@@ -86,7 +86,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="timeInput"/>
+         <widget class="QTimeEdit" name="timeInput"/>
         </item>
         <item>
          <widget class="QLabel" name="notesLabel">
@@ -115,4 +115,3 @@
  <resources/>
  <connections/>
 </ui>
-
