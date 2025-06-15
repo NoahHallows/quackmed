@@ -6,6 +6,8 @@ import bcrypt
 import secrets
 import _credentials
 import contextlib
+import jwt
+from datetime import datetime, timedelta
 
 import quackmed_pb2
 import quackmed_pb2_grpc
@@ -14,10 +16,13 @@ USERNAME = "noah"
 PASSWORD = "amicia"
 HOST = "127.0.0.1"
 
+with open("credentials/private_key.pem", "rb") as f:
+    PRIVATE_KEY = f.read()
+
+with open("credentials/public_key.pem", "rb") as f:
+    PUBLIC_KEY = f.read()
 
 _LISTEN_ADDRESS_TEMPLATE = "localhost:%d"
-_AUTH_HEADER_KEY = "authorization"
-_AUTH_HEADER_VALUE = "Bearer example_oauth2_token"
 
 
 # Authenticated TOKENS
@@ -44,11 +49,31 @@ def db_binary_to_binary(db_binary):
             binary = binary + byte
     return binary
 
+def create_jwt(user_id: str) -> str:
+    now = datetime.utcnow()
+    payload = {
+        "sub": user_id,
+        "iat": now,
+        "exp": now + timedelta(hours=1),
+        "iss": "local-auth-server",
+        "aud": "my-grpc-service",
+    }
+    return jwt.encode(payload, PRIVATE_KEY, algorithm="RS256")
+
+def verify_jwt(token: str) -> dict:
+    return jwt.decode(token, PUBLIC_KEY, algorithms=["RS256"], audience="my-grpc-service", issuer="local-auth-server")
+
 
 class AuthInterceptor(grpc.ServerInterceptor):
+    PUBLIC_METHODS = {
+        "/AuthService/Login",
+        "/AuthService/CheckUserExists",
+        "/AuthService/GetSalt",
+    }
+
     def __init__(self):
         def abort(ignored_request, context):
-            context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid signature")
+            context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid token")
 
         self._abort_handler = grpc.unary_unary_rpc_method_handler(abort)
 
@@ -57,11 +82,31 @@ class AuthInterceptor(grpc.ServerInterceptor):
         #     _HandlerCallDetails(
         #       method=u'/helloworld.Greeter/SayHello',
         #       invocation_metadata=...)
-        expected_metadata = (_AUTH_HEADER_KEY, _AUTH_HEADER_VALUE)
-        if expected_metadata in handler_call_details.invocation_metadata:
+
+        # Continue if a public method was called
+        if handler_call_details.method in self.PUBLIC_METHODS:
             return continuation(handler_call_details)
-        else:
-            return self._abort_handler
+
+        metadata = dict(handler_call_details.invocation_metadata)
+        auth_header = metadata.get("authorization")
+        
+        print(handler_call_details.method)
+        
+        if not auth_header or not auth_header.startswith("Bearer "):
+            def deny(_, context):
+                context.abort(grpc.StatusCode.UNAUTHENTICATED, "Missing or invalid authorization header")
+            return grpc.unary_unary_rpc_method_handler(deny)
+
+        token = auth_header[len("Bearer "):]
+        try:
+            payload = verify_jwt(token)
+            # optionally add user info to context
+        except jwt.PyJWTError as e:
+            def deny(_, context):
+                context.abort(grpc.StatusCode.UNAUTHENTICATED, f"Token verification failed:")
+            return grpc.unary_unary_rpc_method_handler(deny)
+
+        return continuation(handler_call_details)
 
 
 class AuthService(quackmed_pb2_grpc.AuthService):
@@ -82,7 +127,7 @@ class AuthService(quackmed_pb2_grpc.AuthService):
         return quackmed_pb2.password_salt(salt=salt)
 
     def Login(self, request, context):
-        print(f"Username: {request.username}, password: {request.password}")
+        print("Logging in")
         try:
             cur.execute("SELECT password_hash FROM users where username = %s", (request.username,))
             password_hash_raw = cur.fetchall()
@@ -90,17 +135,12 @@ class AuthService(quackmed_pb2_grpc.AuthService):
         except:
             print("Password not found")
             password_hash = b''
-        print(f"Username: {request.username}, password_hash: {password_hash}, sent password hash: {request.password}")
         if (password_hash == request.password):
             result = True
-            token = secrets.token_bytes(4)
+            token = create_jwt(request.username)
             TOKENS[request.username] = token
-            print(token)
-
-        else:
-            result = False
-            token = b''
-        return quackmed_pb2.login_result(success=result, token=token)
+            return quackmed_pb2.login_result(success=result, token=token)
+        context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid credentials")
 
     def CreateAccount(self, request, context):
         print("Creating user")

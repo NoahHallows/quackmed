@@ -5,15 +5,18 @@ import bcrypt
 import _credentials
 
 # Auth token
-TOKEN = b''
+TOKEN = ''
 HOST = "localhost:50051"
 _SERVER_ADDR_TEMPLATE = "localhost:%d"
 
 class accounts:
     def __init__(self):
+           self.intialise_conn('unauthorised')
+
+    def intialise_conn(self, token):
         # Call credential object will be invoked for every single RPC
         call_credentials = grpc.access_token_call_credentials(
-            "example_oauth2_token"
+            token
         )
         # Channel credential will be valid for the entire channel
         channel_credential = grpc.ssl_channel_credentials(
@@ -35,8 +38,7 @@ class accounts:
             response = self.stub.GetSalt(quackmed_pb2.salt_request(username=username))
             password_hash = bcrypt.hashpw(password.encode(), response.salt)
             response = self.stub.Login(quackmed_pb2.login_request(username=username, password=password_hash))
-            global TOKEN
-            TOKEN = response.token
+            self.intialise_conn(response.token)
             return response.success, response.token
         else:
             return False, b''
