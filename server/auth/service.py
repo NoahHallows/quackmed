@@ -69,8 +69,10 @@ class AuthService(auth_pb2_grpc.AuthService):
             password_hash = b''
         # Compare password hashes
         if (password_hash == request.password):
+            cur.execute("SELECT type FROM users WHERE username = %s", (request.username,))
+            user_type = cur.fetchone()[0]
             result = True
-            token = create_jwt(request.username)
+            token = create_jwt(request.username, user_type)
             return auth_pb2.login_result(success=result, token=token)
         return auth_pb2.login_result(success=False, token='')
 
@@ -79,7 +81,7 @@ class AuthService(auth_pb2_grpc.AuthService):
         # Check user doesn't exist
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
         if cur.fetchone() is None:
-            cur.execute("INSERT INTO users (username, password_hash, salt) VALUES (%s, %s, %s)", (request.username, request.password, request.salt))
+            cur.execute("INSERT INTO users (username, password_hash, salt, type) VALUES (%s, %s, %s, %s)", (request.username, request.password, request.salt, request.user_type))
             conn.commit()
             print("Done")
             return auth_pb2.register_result(success=True)
@@ -107,4 +109,20 @@ class AuthService(auth_pb2_grpc.AuthService):
             return auth_pb2.LogoutResponse(status="Logged out")
         except jwt.PyJWTError:
             context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid token")
+
+    def ListUsers(self, request, context):
+        print("Listing users")
+        if request.user_type != 0:
+            cur.execute("SELECT username, type FROM users WHERE type = %s", (str(request.user_type)))
+        else:
+            cur.execute("SELECT username, type FROM users")
+        rows = cur.fetchall()
+        users = []
+        for row in rows:
+            users.append(auth_pb2.user_details(username=row[0], user_type=row[1]))
+            print(row)
+
+        return auth_pb2.list_user_response(users=users)
+        
+
 

@@ -4,6 +4,7 @@ import string
 from client_backend import accounts
 
 
+
 class TestCreateAccount(unittest.TestCase):
     def setUp(self):
         self.account_manager = accounts()
@@ -13,9 +14,10 @@ class TestCreateAccount(unittest.TestCase):
         length = random.randint(1, 50)
         username = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
         password = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-        
+         
+        user_type = random.randint(1, 4)
         # Test account creation
-        result = self.account_manager.create_account(username, password)
+        result = self.account_manager.create_account(username, password, user_type)
         self.assertTrue(result)
         
         # Test login with created account
@@ -24,8 +26,8 @@ class TestCreateAccount(unittest.TestCase):
         self.assertIsInstance(token, str)
         
         # Clean up - delete the test account
-        delete_result = self.account_manager.delete_user(username)
-        self.assertTrue(delete_result)
+        #delete_result = self.account_manager.delete_user(username)
+        #self.assertTrue(delete_result)
 
 class TestLogin(unittest.TestCase):
     def setUp(self):
@@ -61,8 +63,8 @@ class TestDeleteAccount(unittest.TestCase):
         # First create a test account
         username = 'test_delete_' + ''.join(random.choices(string.ascii_letters, k=10))
         password = 'testpassword'
-        
-        create_result = self.account_manager.create_account(username, password)
+        user_type = random.randint(1, 4)
+        create_result = self.account_manager.create_account(username, password, user_type)
         self.assertTrue(create_result)
         
         # Then delete it

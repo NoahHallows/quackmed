@@ -7,6 +7,7 @@ from PySide6.QtUiTools import QUiLoader
 from ui.MainWindow import Ui_MainWindow
 from ui.LoginWindow import Ui_Login
 from ui.AppointmentBookWindow import Ui_AppointmentBook
+from ui.UserListWindow import Ui_Users
 
 # Import backend
 import client_backend
@@ -28,6 +29,38 @@ class LoginWindow(QWidget, Ui_Login):
         self.w = MainWindow()
         self.w.show()
         self.hide()
+
+
+class UserListWindow(QWidget, Ui_Users):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.CloseButton.clicked.connect(self.close_window)
+        self.UserTypeSelector.currentIndexChanged.connect(self.populateTable)
+   
+    @QtCore.Slot()
+    def close_window(self):
+        self.close()
+    
+    @QtCore.Slot()
+    def populateTable(self):
+        user_type = self.UserTypeSelector.currentIndex()
+        row = 0
+        role = "Undefined"
+        response = backend.list_users(user_type)
+        for user in response.users:
+            if user.user_type == 1:
+                role = "Doctor"
+            elif user.user_role == 2:
+                role = "Nurse"
+            elif user.user_role == 3:
+                role = "Admin"
+            elif user.user_role == 4:
+                role = "Receptionist"
+            print(f"Username = {user.username}, role = {self.UserTypeSelector.currentIndex()}")
+            self.UserTable.setItem(row, 0, QTableWidgetItem(role))
+            self.UserTable.setItem(row, 1, QTableWidgetItem(user.username))
+            row = row + 1
 
 
 class AppointmentWindow(QWidget, Ui_AppointmentBook):
@@ -141,11 +174,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CreateUserButton.clicked.connect(self.createUser)
         self.DeleteUserButton.clicked.connect(self.deleteUser)
         self.AppointmentButton.clicked.connect(self.showAppointmentBook)
+        self.ListUsersButton.clicked.connect(self.list_users)
+
+
+    @QtCore.Slot()
+    def list_users(self):
+        self.ListUsersWindow = UserListWindow()
+        self.ListUsersWindow.show()
+        self.ListUsersWindow.populateTable(0)
 
     @QtCore.Slot()
     def showAppointmentBook(self):
-        self.w = AppointmentWindow()
-        self.w.show()
+        self.AppointmentWindowObject = AppointmentWindow()
+        self.AppointmentWindowObject.show()
 
     @QtCore.Slot()
     def deleteUser(self):
@@ -157,7 +198,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def createUser(self):
         username = self.UserEdit.text()
         password = self.PasswordEdit.text()
-        backend.create_account(username, password)
+        #user_type = self.UserTypeInput.value()
+        #backend.create_account(username, password, user_type)
         print("Created user")
 
 if __name__ == "__main__":

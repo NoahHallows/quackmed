@@ -1,6 +1,6 @@
 import grpc
-import quackmed_pb2
-import quackmed_pb2_grpc
+import auth_pb2
+import auth_pb2_grpc
 import bcrypt
 import _credentials
 
@@ -27,37 +27,44 @@ class accounts:
             call_credentials,
         )
         self.channel = grpc.secure_channel(HOST, composite_credentials)
-        self.stub = quackmed_pb2_grpc.AuthServiceStub(self.channel)
+        self.stub = auth_pb2_grpc.AuthServiceStub(self.channel)
 
 
     def login(self, username, password):
-        response = self.stub.CheckUserExists(quackmed_pb2.user_exists_request(username=username))
+        response = self.stub.CheckUserExists(auth_pb2.user_exists_request(username=username))
         if response.exists:
-            response = self.stub.GetSalt(quackmed_pb2.salt_request(username=username))
+            response = self.stub.GetSalt(auth_pb2.salt_request(username=username))
             password_hash = bcrypt.hashpw(password.encode(), response.salt)
-            response = self.stub.Login(quackmed_pb2.login_request(username=username, password=password_hash))
+            response = self.stub.Login(auth_pb2.login_request(username=username, password=password_hash))
             self.intialise_conn(response.token)
             return response.success, response.token
         else:
             return False, b''
 
-    def create_account(self, username, password):
-        response = self.stub.CheckUserExists(quackmed_pb2.user_exists_request(username=username))
+    def create_account(self, username, password, user_type):
+        response = self.stub.CheckUserExists(auth_pb2.user_exists_request(username=username))
         if not response.exists:
             salt = bcrypt.gensalt()
             password_hash = bcrypt.hashpw(password.encode(), salt)
-            response = self.stub.CreateAccount(quackmed_pb2.register_request(username=username, password=password_hash, salt=salt))
+            response = self.stub.CreateAccount(auth_pb2.register_request(username=username, password=password_hash, salt=salt, user_type=user_type))
             return response.success
         else:
             return False
 
     def delete_user(self, username):
-        response = self.stub.DeleteUser(quackmed_pb2.delete_request(username=username))
+        response = self.stub.DeleteUser(auth_pb2.delete_request(username=username))
         return response.success
 
     def logout(self):
-        response = self.stub.Logout(quackmed_pb2.logout_request(token=TOKEN))
+        response = self.stub.Logout(auth_pb2.logout_request(token=TOKEN))
         self.intialise_conn('unauthorised')
+
+    def list_users(self, user_type):
+        response = self.stub.ListUsers(auth_pb2.list_users_request(user_type=user_type))
+        for users in response.users:
+            print(users.username)
+        return response
+        
 
 
 if __name__ == "__main__":

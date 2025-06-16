@@ -38,6 +38,7 @@ message register_request {
   string username = 1;
   bytes password = 2;
   bytes salt = 3;
+  int32 user_type = 4;
 }
 
 // Delete user
@@ -58,6 +59,20 @@ message logout_response {
   bool success = 1;
 }
 
+// List users
+message list_users_request {
+  int32 user_type = 1;
+}
+
+message user_details {
+  string username = 1;
+  int32 user_type = 2;
+}
+
+message list_user_response {
+  repeated user_details users = 1;
+}
+
 service AuthService {
   rpc GetSalt(salt_request) returns (password_salt);
   rpc Login(login_request) returns (login_result);
@@ -65,5 +80,6 @@ service AuthService {
   rpc CheckUserExists(user_exists_request) returns (user_exists_response);
   rpc DeleteUser(delete_request) returns (delete_result);
   rpc Logout(logout_request) returns (logout_response);
+  rpc ListUsers(list_users_request) returns (list_user_response);
 }
 

@@ -86,7 +86,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QTimeEdit" name="timeInput"/>
+         <widget class="QTimeEdit" name="timeInput">
+          <property name="timeSpec">
+           <enum>Qt::TimeSpec::LocalTime</enum>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="notesLabel">

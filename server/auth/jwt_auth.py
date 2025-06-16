@@ -1,7 +1,7 @@
 import os
 import jwt
 # importing necessary functions from dotenv library
-from dotenv import load_dotenv, dotenv_values 
+from dotenv import load_dotenv 
 # loading variables from .env file
 load_dotenv() 
 
@@ -16,9 +16,10 @@ with open("credentials/public_key.pem", "rb") as f:
 
 
 # Create token for auth
-def create_jwt(user_id: str) -> str:
+def create_jwt(user_id: str, user_type) -> str:
     payload = {
         "sub": user_id,
+        "user_type": user_type,
         "iss": ISSUER,
         "aud": AUDIENCE,
     }
