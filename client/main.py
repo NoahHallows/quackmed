@@ -23,12 +23,15 @@ class LoginWindow(QWidget, Ui_Login):
     def Login(self):
         username = self.UsernameEdit.text()
         password = self.PasswordEdit.text()
-        print(f"Username: {username}, password: {password}")
         success, token = backend.login(username, password)
-        print(token)
-        self.w = MainWindow()
-        self.w.show()
-        self.hide()
+        if success == True:
+            self.w = MainWindow()
+            self.w.show()
+            self.hide()
+        else:
+             LoginErrorMessageBox = QMessageBox(self)
+             LoginErrorMessageBox.setWindowTitle("Incorrect username or password")
+             LoginErrorMessageBox.setText("Please try again")
 
 
 class UserListWindow(QWidget, Ui_Users):
@@ -48,16 +51,17 @@ class UserListWindow(QWidget, Ui_Users):
         row = 0
         role = "Undefined"
         response = backend.list_users(user_type)
+        self.UserTable.clearContents()
+        self.UserTable.setRowCount(len(response.users))
         for user in response.users:
             if user.user_type == 1:
                 role = "Doctor"
-            elif user.user_role == 2:
+            elif user.user_type == 2:
                 role = "Nurse"
-            elif user.user_role == 3:
+            elif user.user_type == 3:
                 role = "Admin"
-            elif user.user_role == 4:
+            elif user.user_type == 4:
                 role = "Receptionist"
-            print(f"Username = {user.username}, role = {self.UserTypeSelector.currentIndex()}")
             self.UserTable.setItem(row, 0, QTableWidgetItem(role))
             self.UserTable.setItem(row, 1, QTableWidgetItem(user.username))
             row = row + 1
@@ -181,7 +185,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def list_users(self):
         self.ListUsersWindow = UserListWindow()
         self.ListUsersWindow.show()
-        self.ListUsersWindow.populateTable(0)
+        self.ListUsersWindow.populateTable()
 
     @QtCore.Slot()
     def showAppointmentBook(self):
