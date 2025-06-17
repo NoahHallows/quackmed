@@ -111,7 +111,7 @@ class AuthService(auth_pb2_grpc.AuthService):
             context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid token")
 
     def ListUsers(self, request, context):
-        print(f"Listing users of type {request.type}")
+        print(f"Listing users of type {request.user_type}")
         if request.user_type != 0:
             cur.execute("SELECT username, type FROM users WHERE type = %s", (str(request.user_type)))
         else:
