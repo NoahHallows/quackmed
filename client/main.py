@@ -5,8 +5,11 @@ from PySide6 import QtCore, QtGui, QtWidgets
 # Import compilled layout
 from ui.MainWindowCompiled import Ui_MainWindow
 from ui.LoginWindowCompiled import Ui_Login
-from ui.AppointmentBookWindowCompiled import Ui_AppointmentBook
+from ui.AppointmentBookCompiled import Ui_AppointmentBook
 from ui.UserListWindowCompiled import Ui_Users
+
+#Import create user ui code
+import CreateUser
 
 # Import backend
 from backend import auth
@@ -26,7 +29,7 @@ class LoginWindow(QWidget, Ui_Login):
         if success == True:
             self.w = MainWindow()
             self.w.show()
-            self.hide()
+            self.close()
         else:
              LoginErrorMessageBox = QMessageBox(self)
              LoginErrorMessageBox.setWindowTitle("Incorrect username or password")
@@ -192,17 +195,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.Slot()
     def deleteUser(self):
-        username = self.UserEdit.text()
-        backend.delete_user(username)
-        print("Deleted user")
+        pass
 
     @QtCore.Slot()
     def createUser(self):
-        username = self.UserEdit.text()
-        password = self.PasswordEdit.text()
-        #user_type = self.UserTypeInput.value()
-        #backend.create_account(username, password, user_type)
-        print("Created user")
+        self.CreateUserWindow = CreateUser.Window(backend)
+        self.CreateUserWindow.show()
+        
+
 
 if __name__ == "__main__":
     backend = auth.accounts()
