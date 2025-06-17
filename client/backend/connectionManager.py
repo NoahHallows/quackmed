@@ -14,7 +14,6 @@ class GRPCConnectionManager:
         return cls._instance
 
     def _update_channel(self):
-        print("updating channel")
         call_credentials = grpc.access_token_call_credentials(self.token)
         channel_credentials = grpc.ssl_channel_credentials(_credentials.ROOT_CERTIFICATE)
         composite_credentials = grpc.composite_channel_credentials(channel_credentials, call_credentials)

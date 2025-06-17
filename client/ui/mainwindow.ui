@@ -15,7 +15,14 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+    <item row="2" column="1">
+     <widget class="QPushButton" name="CreateUserButton">
+      <property name="text">
+       <string>Create user</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Orientation::Horizontal</enum>
@@ -28,52 +35,21 @@
       </property>
      </spacer>
     </item>
-    <item row="3" column="3">
-     <widget class="QComboBox" name="UserTypeSelector">
-      <item>
-       <property name="text">
-        <string>Doctor</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Nurse</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Admin</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Receptionist</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="ListUsersButton">
-      <property name="text">
-       <string>List Users</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Password</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
+    <item row="1" column="4">
      <widget class="QPushButton" name="LogoutButton">
       <property name="text">
        <string>Logout</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="5">
+    <item row="2" column="3">
+     <widget class="QPushButton" name="DeleteUserButton">
+      <property name="text">
+       <string>Delete user</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="5">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Orientation::Horizontal</enum>
@@ -86,50 +62,45 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="3">
-     <widget class="QLineEdit" name="PasswordEdit">
-      <property name="echoMode">
-       <enum>QLineEdit::EchoMode::Password</enum>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="ListUsersButton">
+      <property name="text">
+       <string>List Users</string>
       </property>
      </widget>
     </item>
     <item row="1" column="3">
-     <widget class="QLineEdit" name="UserEdit"/>
-    </item>
-    <item row="0" column="3">
      <widget class="QPushButton" name="AppointmentButton">
       <property name="text">
        <string>Appointment Book</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Username</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="1">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>User type</string>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
       </property>
-     </widget>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
-    <item row="4" column="1">
-     <widget class="QPushButton" name="CreateUserButton">
-      <property name="text">
-       <string>Create user</string>
+    <item row="0" column="1">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
       </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <widget class="QPushButton" name="DeleteUserButton">
-      <property name="text">
-       <string>Delete user</string>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
       </property>
-     </widget>
+     </spacer>
     </item>
    </layout>
   </widget>

@@ -17,11 +17,6 @@ class AuthInterceptor(grpc.ServerInterceptor):
         self._abort_handler = grpc.unary_unary_rpc_method_handler(abort)
 
     def intercept_service(self, continuation, handler_call_details):
-        # Example HandlerCallDetails object:
-        #     _HandlerCallDetails(
-        #       method=u'/helloworld.Greeter/SayHello',
-        #       invocation_metadata=...)
-
         # Continue if a public method was called
         if handler_call_details.method in self.PUBLIC_METHODS:
             return continuation(handler_call_details)
@@ -35,14 +30,12 @@ class AuthInterceptor(grpc.ServerInterceptor):
             return grpc.unary_unary_rpc_method_handler(deny)
 
         token = auth_header[len("Bearer "):]
-        print(token)        
         #if token in REVOKED_TOKENS:
         #    return grpc.unary_unary_rpc_method_handler(
         #        lambda _, ctx: ctx.abort(grpc.StatusCode.UNAUTHENTICATED, "Token revoked")
         #    )
         try:
             payload = verify_jwt(token)
-            # optionally add user info to context
         except jwt.PyJWTError as e:
             def deny(_, context):
                 context.abort(grpc.StatusCode.UNAUTHENTICATED, f"Token verification failed:")

@@ -1,6 +1,7 @@
 import grpc
 import psycopg2
 import os
+from functools import wraps
 # importing necessary functions from dotenv library
 from dotenv import load_dotenv, dotenv_values 
 from .jwt_auth import create_jwt, verify_jwt
@@ -36,6 +37,14 @@ def db_binary_to_binary(db_binary):
             binary = binary + byte
     return binary
 
+# Logging decorator
+#def logger(func):
+    #@wraps(func)
+    #def wrapper(self, request, context):
+    #    print(f"{request}, {context}")
+    #    res = func(self, request, context)
+    #    return res
+    #return wrapper
 
 # Service for login, creating accounts ect
 class AuthService(auth_pb2_grpc.AuthService):
@@ -57,7 +66,6 @@ class AuthService(auth_pb2_grpc.AuthService):
         return auth_pb2.password_salt(salt=salt)
     # Login function
     def Login(self, request, context):
-        print("Logging in")
         try:
             # Attempt to get password hash from db
             cur.execute("SELECT password_hash FROM users where username = %s", (request.username,))
@@ -73,37 +81,31 @@ class AuthService(auth_pb2_grpc.AuthService):
             user_type = cur.fetchone()[0]
             result = True
             token = create_jwt(request.username, user_type)
-            print(token)
             return auth_pb2.login_result(success=result, token=token)
         return auth_pb2.login_result(success=False, token='')
 
     def CreateAccount(self, request, context):
-        print("Creating user")
         # Check user doesn't exist
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
         if cur.fetchone() is None:
             cur.execute("INSERT INTO users (username, password_hash, salt, type) VALUES (%s, %s, %s, %s)", (request.username, request.password, request.salt, request.user_type))
             conn.commit()
-            print("Done")
             return auth_pb2.register_result(success=True)
         else:
             return auth_pb2.register_result(success=False)
 
     def DeleteUser(self, request, context):
-        print("Deleting user")
         # Check user exists
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
         if cur.fetchone() != None:
             cur.execute("DELETE FROM users WHERE username = %s", (request.username,))
             conn.commit()
-            print("Done")
             return auth_pb2.delete_result(success=True)
         else:
             print("User doesn't exist")
             return auth_pb2.delete_result(success=False)
 
     def Logout(self, request, context):
-        print("Logging out")
         try:
             payload = verify_jwt(request.token)
             REVOKED_TOKENS.add(request.token)
@@ -112,7 +114,6 @@ class AuthService(auth_pb2_grpc.AuthService):
             context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid token")
 
     def ListUsers(self, request, context):
-        print("Listing users")
         if request.user_type != 0:
             cur.execute("SELECT username, type FROM users WHERE type = %s", (str(request.user_type)))
         else:
@@ -121,7 +122,6 @@ class AuthService(auth_pb2_grpc.AuthService):
         users = []
         for row in rows:
             users.append(auth_pb2.user_details(username=row[0], user_type=row[1]))
-            print(row)
 
         return auth_pb2.list_user_response(users=users)
         

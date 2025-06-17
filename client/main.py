@@ -3,10 +3,10 @@ from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushB
 from PySide6 import QtCore, QtGui, QtWidgets
 
 # Import compilled layout
-from ui.MainWindow import Ui_MainWindow
-from ui.LoginWindow import Ui_Login
-from ui.AppointmentBookWindow import Ui_AppointmentBook
-from ui.UserListWindow import Ui_Users
+from ui.MainWindowCompiled import Ui_MainWindow
+from ui.LoginWindowCompiled import Ui_Login
+from ui.AppointmentBookWindowCompiled import Ui_AppointmentBook
+from ui.UserListWindowCompiled import Ui_Users
 
 # Import backend
 from backend import auth

@@ -22,7 +22,6 @@ class accounts:
             if response.success:
                 self.conn.set_token(response.token)
                 self.stub = self.conn.get_stub(auth_pb2_grpc.AuthServiceStub)
-                print(response.token)
             return response.success
         else:
             return False
@@ -48,19 +47,3 @@ class accounts:
     def list_users(self, user_type):
         response = self.stub.ListUsers(auth_pb2.list_users_request(user_type=user_type))
         return response
-        
-
-
-if __name__ == "__main__":
-    account_manager = accounts()
-    username = input("Enter username: ")
-    password = input("Enter password: ")
-    option = input("Create account or login (1, 2): ")
-    if option == "1":
-        result = account_manager.create_account(username, password)
-        print(f"Account creation result: {result}")
-    elif option == "2":
-        success, token = account_manager.login(username, password)
-        print(f"Login result: {success}, Token: {token}")
-    print("Done")
-

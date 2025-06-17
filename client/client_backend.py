@@ -60,6 +60,7 @@ class accounts:
         self.intialise_conn('unauthorised')
 
     def list_users(self, user_type):
+        # Type 0 -> all, 1 -> Doctors, 2 -> Nursers, 3 -> admin, 4 -> receptionist
         response = self.stub.ListUsers(auth_pb2.list_users_request(user_type=user_type))
         for users in response.users:
             print(users.username)
