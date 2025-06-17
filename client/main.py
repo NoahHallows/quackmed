@@ -20,6 +20,7 @@ class LoginWindow(QWidget, Ui_Login):
         super().__init__()
         self.setupUi(self)
         self.LoginButton.clicked.connect(self.Login)
+        self.PasswordEdit.returnPressed.connect(self.Login)
     
     @QtCore.Slot()
     def Login(self):
