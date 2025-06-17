@@ -1,7 +1,6 @@
 import sys
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QMessageBox, QTableWidgetItem
 from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtUiTools import QUiLoader
 
 # Import compilled layout
 from ui.MainWindow import Ui_MainWindow
@@ -10,7 +9,7 @@ from ui.AppointmentBookWindow import Ui_AppointmentBook
 from ui.UserListWindow import Ui_Users
 
 # Import backend
-import client_backend
+from backend import auth
 
 class LoginWindow(QWidget, Ui_Login):
     def __init__(self):
@@ -71,7 +70,6 @@ class AppointmentWindow(QWidget, Ui_AppointmentBook):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        #self.setWindowTitle("Appointment Book")
 
         # Store appointments in-memory: {QDate: [ {title, time, notes}, ... ]}
         self.appointments = {}
@@ -207,7 +205,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print("Created user")
 
 if __name__ == "__main__":
-    backend = client_backend.accounts()
+    backend = auth.accounts()
     app = QtWidgets.QApplication(sys.argv)
     
     window = LoginWindow()

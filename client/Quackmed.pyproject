@@ -5,6 +5,8 @@
         "ui/LoginWidget.ui",
         "ui/deleteUser.ui",
         "ui/appointmentBook.ui",
-        "ui/userList.ui"
+        "ui/userList.ui",
+        "ui/PatientDetails.ui",
+        "ui/patientList.ui"
     ]
 }
