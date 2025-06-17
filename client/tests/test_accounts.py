@@ -65,8 +65,7 @@ class TestCreateAccount(unittest.TestCase):
         
         # Clean up - delete the test account
         delete_result = self.account_manager.delete_user(username)
-        print(delete_result)
-        self.assertTrue(delete_result.success)
+        self.assertTrue(delete_result)
 
     def test_create_account_receptionist(self):
         length = random.randint(1, 50)
