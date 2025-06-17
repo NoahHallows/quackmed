@@ -22,7 +22,7 @@ class TestCreateAccount(unittest.TestCase):
         self.assertTrue(result)
         
         # Test login with created account
-        login_success = self.account_manager.login(username, password)
+        login_success, msg = self.account_manager.login(username, password)
         self.assertTrue(login_success)
         
         # Clean up - delete the test account
@@ -41,7 +41,7 @@ class TestCreateAccount(unittest.TestCase):
         self.assertTrue(result)
         
         # Test login with created account
-        login_success = self.account_manager.login(username, password)
+        login_success, msg = self.account_manager.login(username, password)
         self.assertTrue(login_success)
         
         # Clean up - delete the test account
@@ -60,7 +60,7 @@ class TestCreateAccount(unittest.TestCase):
         self.assertTrue(result)
         
         # Test login with created account
-        login_success = self.account_manager.login(username, password)
+        login_success, msg = self.account_manager.login(username, password)
         self.assertTrue(login_success)
         
         # Clean up - delete the test account
@@ -87,25 +87,38 @@ class TestCreateAccount(unittest.TestCase):
         self.assertTrue(delete_result)
 
 class TestLogin(unittest.TestCase):
+    # Don't worry about the success variable because its just for the ui
     def setUp(self):
         self.account_manager = accounts()
     
     def test_correct_login(self):
         username = 'noah'
         password = 'amicia'
-        success = self.account_manager.login(username, password)
+        success, msg = self.account_manager.login(username, password)
         self.assertTrue(success)
 
     def test_non_existent_user(self):
         username = 'The_Doctor_' + ''.join(random.choices(string.ascii_letters, k=10))  # Make it unique
         password = 'gdongdog'
-        success = self.account_manager.login(username, password)
+        success, msg = self.account_manager.login(username, password)
         self.assertFalse(success)
 
     def test_incorrect_password(self):
         username = 'noah'
         password = 'wrongpassword'
-        success = self.account_manager.login(username, password)
+        success, mgs = self.account_manager.login(username, password)
+        self.assertFalse(success)
+
+    def test_empty_username_and_password(self):
+        username = ''
+        password = ''
+        success, msg = self.account_manager.login(username, password)
+        self.assertFalse(success)
+
+    def test_wrong_types(self):
+        username = {}
+        password = {}
+        success, msg = self.account_manager.login(username, password)
         self.assertFalse(success)
 
 class TestDeleteAccount(unittest.TestCase):
@@ -126,7 +139,7 @@ class TestDeleteAccount(unittest.TestCase):
         self.assertTrue(delete_result)
         
         # Verify it's deleted by trying to login
-        login_success = self.account_manager.login(username, password)
+        login_success, msg = self.account_manager.login(username, password)
         self.assertFalse(login_success)
 
 class TestListUsers(unittest.TestCase):

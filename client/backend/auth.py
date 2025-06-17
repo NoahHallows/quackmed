@@ -50,7 +50,8 @@ class accounts:
         try:
             username = str(username)
             password = str(password)
-
+        except:
+            return False
         # Check user exists, if user does then fail
         response = self.stub.CheckUserExists(auth_pb2.user_exists_request(username=username))
         if not response.exists:

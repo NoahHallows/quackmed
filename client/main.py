@@ -14,26 +14,28 @@ import CreateUser
 # Import backend
 from backend import auth
 
+# For Login window
 class LoginWindow(QWidget, Ui_Login):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.setWindowTitle("Login")
         self.LoginButton.clicked.connect(self.Login)
     
     @QtCore.Slot()
     def Login(self):
+        # Get user input
         username = self.UsernameEdit.text()
         password = self.PasswordEdit.text()
-        success = backend.login(username, password)
+        # Send to backend which then sends to server
+        success, message = backend.login(username, password)
         if success == True:
+            # The backend has already handled authentication, we just need to close this window
             self.w = MainWindow()
             self.w.show()
             self.close()
         else:
-             LoginErrorMessageBox = QMessageBox(self)
-             LoginErrorMessageBox.setWindowTitle("Incorrect username or password")
-             LoginErrorMessageBox.setText("Please try again")
+            # There was some issue, likely incorrect username or password
+            QMessageBox.critical(self, "Unable to login", message + ". Please try again")
 
 
 class UserListWindow(QWidget, Ui_Users):

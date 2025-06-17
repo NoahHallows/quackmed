@@ -37,25 +37,19 @@ def db_binary_to_binary(db_binary):
             binary = binary + byte
     return binary
 
-# Logging decorator
-#def logger(func):
-    #@wraps(func)
-    #def wrapper(self, request, context):
-    #    print(f"{request}, {context}")
-    #    res = func(self, request, context)
-    #    return res
-    #return wrapper
 
 # Service for login, creating accounts ect
 class AuthService(auth_pb2_grpc.AuthService):
     # Check if the user exists
     def CheckUserExists(self, request, context):
+        print(f"Check user {request.username} exists")
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
         exists = cur.fetchone() is not None
         return auth_pb2.user_exists_response(exists=exists)
 
     # Get the salt for the user from the db and send to client so client can hash password
     def GetSalt(self, request, context):
+        print(f"Get salt called for {request.username}")
         # Declare variable in case user doesn't exists.
         salt = b''
         cur.execute("SELECT salt FROM users WHERE username = %s;", (request.username,))
@@ -66,6 +60,7 @@ class AuthService(auth_pb2_grpc.AuthService):
         return auth_pb2.password_salt(salt=salt)
     # Login function
     def Login(self, request, context):
+        print(f"Login be {request.username}")
         try:
             # Attempt to get password hash from db
             cur.execute("SELECT password_hash FROM users where username = %s", (request.username,))
@@ -85,6 +80,7 @@ class AuthService(auth_pb2_grpc.AuthService):
         return auth_pb2.login_result(success=False, token='')
 
     def CreateAccount(self, request, context):
+        print(f"Create user {request.username}")
         # Check user doesn't exist
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
         if cur.fetchone() is None:
@@ -95,6 +91,7 @@ class AuthService(auth_pb2_grpc.AuthService):
             return auth_pb2.register_result(success=False)
 
     def DeleteUser(self, request, context):
+        print(f"Delete user {request.username}")
         # Check user exists
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
         if cur.fetchone() != None:
@@ -114,6 +111,7 @@ class AuthService(auth_pb2_grpc.AuthService):
             context.abort(grpc.StatusCode.UNAUTHENTICATED, "Invalid token")
 
     def ListUsers(self, request, context):
+        print(f"Listing users of type {request.type}")
         if request.user_type != 0:
             cur.execute("SELECT username, type FROM users WHERE type = %s", (str(request.user_type)))
         else:
