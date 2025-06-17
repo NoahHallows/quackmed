@@ -22,7 +22,7 @@ class LoginWindow(QWidget, Ui_Login):
     def Login(self):
         username = self.UsernameEdit.text()
         password = self.PasswordEdit.text()
-        success, token = backend.login(username, password)
+        success = backend.login(username, password)
         if success == True:
             self.w = MainWindow()
             self.w.show()

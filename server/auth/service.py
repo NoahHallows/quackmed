@@ -73,6 +73,7 @@ class AuthService(auth_pb2_grpc.AuthService):
             user_type = cur.fetchone()[0]
             result = True
             token = create_jwt(request.username, user_type)
+            print(token)
             return auth_pb2.login_result(success=result, token=token)
         return auth_pb2.login_result(success=False, token='')
 
