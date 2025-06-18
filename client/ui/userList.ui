@@ -62,6 +62,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QPushButton" name="CreateUserButton">
+     <property name="text">
+      <string>Create user</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>User role</string>

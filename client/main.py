@@ -48,6 +48,12 @@ class UserListWindow(QWidget, Ui_Users):
         self.UserTable.cellDoubleClicked.connect(self.show_user_details)
         self.EditUserButton.clicked.connect(self.show_user_details)
         self.DeleteUserButton.clicked.connect(self.delete_user)
+        self.CreateUserButton.clicked.connect(self.createUser)
+
+    @QtCore.Slot()
+    def createUser(self):
+        self.CreateUserWindow = CreateUser.Window(backend)
+        self.CreateUserWindow.show()
 
     @QtCore.Slot()
     def show_user_details(self):

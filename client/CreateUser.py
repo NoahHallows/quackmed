@@ -48,6 +48,8 @@ class Window(QWidget, Ui_CreateUser):
         self.PasswordEdit.clear()
         self.PasswordEdit.setPlaceholderText("Please enter new password")
         self.PasswordConfirmEdit.clear()
+        self.PasswordConfirmEdit.setPlaceholderText("Please confirm new password")
+        self.TitleLable.setText("Edit user")
         user_type = self.auth_backend.get_user_details(username)
         user_type = user_type - 1
         print(user_type)
