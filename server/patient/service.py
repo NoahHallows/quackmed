@@ -29,9 +29,12 @@ except:
 class PatientService(patient_pb2_grpc.PatientService):
 
     def CreatePatient(self, request, context):
-        print(f"Creating patient {request.firstname}")
-        dob = datetime.strptime(request.dob, "%d-%m-%Y").date()
-        cur.execute("INSERT INTO patients (first_name, last_name, notes, date_of_birth) values (%s, %s, %s, %s)", (request.first_name, request.last_name, request.notes, dob))
+        print(f"Creating patient {request.first_name}")
+        #dob = datetime.strptime(request.dob, "%d-%m-%Y").date()
+        print(f"Date of birth: {request.dob}")
+        print(f"Notes: {request.notes}")
+        print(len(request.dob))
+        cur.execute("INSERT INTO patients (first_name, last_name, notes, date_of_birth) values (%s, %s, %s, %s)", (request.first_name, request.last_name, request.notes, request.dob))
         conn.commit()
         return patient_pb2.create_patient_response(success=True)
 

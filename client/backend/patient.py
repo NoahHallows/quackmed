@@ -11,7 +11,8 @@ class PatientManager:
         self.stub = self.conn.get_stub(patient_pb2_grpc.PatientServiceStub)
 
     def create_patient(self, first_name, last_name, notes, dob): 
-        response = self.stub.CreatePatient(patient_pb2.patient_details(first_name=first_name, last_name=last_name, notes=notes, dob=dob))
+        print(dob, notes)
+        response = self.stub.CreatePatient(patient_pb2.patient_details(patient_id=0, first_name=first_name, last_name=last_name, notes=notes, dob=dob))
         return response.success
 
     def get_patient_details(self, patient_id):

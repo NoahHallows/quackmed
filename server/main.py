@@ -5,6 +5,7 @@ import _credentials
 
 # import generated code
 import auth_pb2_grpc
+import patient_pb2_grpc
 
 # import our modules
 from auth.interceptor import AuthInterceptor
@@ -23,6 +24,7 @@ def run_server(port):
         interceptors=(AuthInterceptor(),),
     )
     auth_pb2_grpc.add_AuthServiceServicer_to_server(AuthService(), server)
+    patient_pb2_grpc.add_PatientServiceServicer_to_server(PatientService(), server)
 
     # Loading credentials
     server_credentials = grpc.ssl_server_credentials(
