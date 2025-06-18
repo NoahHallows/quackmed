@@ -1,6 +1,6 @@
 import grpc
-from backend.grpc import auth_pb2
-from backend.grpc import auth_pb2_grpc
+import auth_pb2
+import auth_pb2_grpc
 from backend.connectionManager import GRPCConnectionManager
 import bcrypt
 
