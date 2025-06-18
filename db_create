@@ -11,6 +11,7 @@ CREATE TABLE patients (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
+    notes VARCHAR(8000),
     date_of_birth TIMESTAMP
 );
 

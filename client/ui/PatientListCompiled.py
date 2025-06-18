@@ -16,32 +16,55 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
+    QLineEdit, QPushButton, QSizePolicy, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_PatientList(object):
     def setupUi(self, PatientList):
         if not PatientList.objectName():
             PatientList.setObjectName(u"PatientList")
-        PatientList.resize(400, 300)
-        self.tableWidget = QTableWidget(PatientList)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(9, 57, 371, 231))
-        self.widget = QWidget(PatientList)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(9, 9, 175, 24))
-        self.horizontalLayout = QHBoxLayout(self.widget)
+        PatientList.resize(400, 360)
+        self.verticalLayout = QVBoxLayout(PatientList)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.widget)
+        self.label = QLabel(PatientList)
         self.label.setObjectName(u"label")
 
         self.horizontalLayout.addWidget(self.label)
 
-        self.lineEdit = QLineEdit(self.widget)
+        self.lineEdit = QLineEdit(PatientList)
         self.lineEdit.setObjectName(u"lineEdit")
 
         self.horizontalLayout.addWidget(self.lineEdit)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.tableWidget = QTableWidget(PatientList)
+        self.tableWidget.setObjectName(u"tableWidget")
+
+        self.verticalLayout.addWidget(self.tableWidget)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.NewPatientButton = QPushButton(PatientList)
+        self.NewPatientButton.setObjectName(u"NewPatientButton")
+
+        self.horizontalLayout_2.addWidget(self.NewPatientButton)
+
+        self.EditPatientButton = QPushButton(PatientList)
+        self.EditPatientButton.setObjectName(u"EditPatientButton")
+
+        self.horizontalLayout_2.addWidget(self.EditPatientButton)
+
+        self.CloseButton = QPushButton(PatientList)
+        self.CloseButton.setObjectName(u"CloseButton")
+
+        self.horizontalLayout_2.addWidget(self.CloseButton)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
 
         self.retranslateUi(PatientList)
@@ -50,7 +73,10 @@ class Ui_PatientList(object):
     # setupUi
 
     def retranslateUi(self, PatientList):
-        PatientList.setWindowTitle(QCoreApplication.translate("PatientList", u"Form", None))
+        PatientList.setWindowTitle(QCoreApplication.translate("PatientList", u"Patient list", None))
         self.label.setText(QCoreApplication.translate("PatientList", u"Search", None))
+        self.NewPatientButton.setText(QCoreApplication.translate("PatientList", u"New patient", None))
+        self.EditPatientButton.setText(QCoreApplication.translate("PatientList", u"Edit patient", None))
+        self.CloseButton.setText(QCoreApplication.translate("PatientList", u"Close", None))
     # retranslateUi
 

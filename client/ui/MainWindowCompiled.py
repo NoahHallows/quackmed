@@ -69,6 +69,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addItem(self.verticalSpacer_2, 0, 1, 1, 1)
 
+        self.ListPatientsButton = QPushButton(self.centralwidget)
+        self.ListPatientsButton.setObjectName(u"ListPatientsButton")
+
+        self.gridLayout.addWidget(self.ListPatientsButton, 2, 4, 1, 1)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -90,5 +95,6 @@ class Ui_MainWindow(object):
         self.DeleteUserButton.setText(QCoreApplication.translate("MainWindow", u"Delete user", None))
         self.ListUsersButton.setText(QCoreApplication.translate("MainWindow", u"List Users", None))
         self.AppointmentButton.setText(QCoreApplication.translate("MainWindow", u"Appointment Book", None))
+        self.ListPatientsButton.setText(QCoreApplication.translate("MainWindow", u"List Patients", None))
     # retranslateUi
 

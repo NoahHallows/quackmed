@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QHeaderView,
-    QLabel, QPushButton, QSizePolicy, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QHBoxLayout,
+    QHeaderView, QLabel, QPushButton, QSizePolicy,
+    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Users(object):
     def setupUi(self, Users):
@@ -45,25 +45,32 @@ class Ui_Users(object):
 
         self.verticalLayout.addWidget(self.UserTable)
 
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.EditUserButton = QPushButton(Users)
         self.EditUserButton.setObjectName(u"EditUserButton")
 
-        self.verticalLayout.addWidget(self.EditUserButton)
-
-        self.DeleteUserButton = QPushButton(Users)
-        self.DeleteUserButton.setObjectName(u"DeleteUserButton")
-
-        self.verticalLayout.addWidget(self.DeleteUserButton)
+        self.horizontalLayout.addWidget(self.EditUserButton)
 
         self.CreateUserButton = QPushButton(Users)
         self.CreateUserButton.setObjectName(u"CreateUserButton")
 
-        self.verticalLayout.addWidget(self.CreateUserButton)
+        self.horizontalLayout.addWidget(self.CreateUserButton)
 
+        self.DeleteUserButton = QPushButton(Users)
+        self.DeleteUserButton.setObjectName(u"DeleteUserButton")
+
+        self.horizontalLayout.addWidget(self.DeleteUserButton)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label_2 = QLabel(Users)
         self.label_2.setObjectName(u"label_2")
 
-        self.verticalLayout.addWidget(self.label_2)
+        self.horizontalLayout_2.addWidget(self.label_2)
 
         self.UserTypeSelector = QComboBox(Users)
         self.UserTypeSelector.addItem("")
@@ -73,7 +80,10 @@ class Ui_Users(object):
         self.UserTypeSelector.addItem("")
         self.UserTypeSelector.setObjectName(u"UserTypeSelector")
 
-        self.verticalLayout.addWidget(self.UserTypeSelector)
+        self.horizontalLayout_2.addWidget(self.UserTypeSelector)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.CloseButton = QPushButton(Users)
         self.CloseButton.setObjectName(u"CloseButton")
@@ -94,8 +104,8 @@ class Ui_Users(object):
         ___qtablewidgetitem1 = self.UserTable.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("Users", u"Name", None));
         self.EditUserButton.setText(QCoreApplication.translate("Users", u"Edit user", None))
-        self.DeleteUserButton.setText(QCoreApplication.translate("Users", u"Delete user", None))
         self.CreateUserButton.setText(QCoreApplication.translate("Users", u"Create user", None))
+        self.DeleteUserButton.setText(QCoreApplication.translate("Users", u"Delete user", None))
         self.label_2.setText(QCoreApplication.translate("Users", u"User role", None))
         self.UserTypeSelector.setItemText(0, QCoreApplication.translate("Users", u"All", None))
         self.UserTypeSelector.setItemText(1, QCoreApplication.translate("Users", u"Doctor", None))

@@ -10,9 +10,10 @@ from ui.UserListWindowCompiled import Ui_Users
 
 #Import create user ui code
 import CreateUser
+import Patient
 
 # Import backend
-from backend import auth
+from backend import auth, patient
 
 # For Login window
 class LoginWindow(QWidget, Ui_Login):
@@ -28,12 +29,13 @@ class LoginWindow(QWidget, Ui_Login):
         username = self.UsernameEdit.text()
         password = self.PasswordEdit.text()
         # Send to backend which then sends to server
-        success, message = backend.login(username, password)
+        success, message = auth_backend.login(username, password)
         if success == True:
             # The backend has already handled authentication, we just need to close this window
             self.w = MainWindow()
             self.w.show()
             self.close()
+            patient_backend.update_stub()
         else:
             # There was some issue, likely incorrect username or password
             QMessageBox.critical(self, "Unable to login", message + ". Please try again")
@@ -52,7 +54,7 @@ class UserListWindow(QWidget, Ui_Users):
 
     @QtCore.Slot()
     def createUser(self):
-        self.CreateUserWindow = CreateUser.Window(backend)
+        self.CreateUserWindow = CreateUser.Window(auth_backend)
         self.CreateUserWindow.show()
 
     @QtCore.Slot()
@@ -63,7 +65,7 @@ class UserListWindow(QWidget, Ui_Users):
         except Exception as e:
             QMessageBox.warning(self, "Unable to edit user", f"Please select a user from the table\n{e}")
             return
-        self.CreateUserWindow = CreateUser.Window(backend)
+        self.CreateUserWindow = CreateUser.Window(auth_backend)
         self.CreateUserWindow.EditUser(str(username))
         self.CreateUserWindow.show()
 
@@ -82,13 +84,13 @@ class UserListWindow(QWidget, Ui_Users):
             )
 
             if confirm == QMessageBox.Yes:
-                backend.delete_user(username)
+                auth_backend.delete_user(username)
                 QMessageBox.information(self, "User deleted", f"User {username} has been deleted")
                 self.populateTable()  # Optionally refresh table after deletion
             else:
                 # Optional: show cancellation message
                 QMessageBox.information(self, "Cancelled", "User deletion cancelled.")
-                backend.delete_user(username)
+                auth_backend.delete_user(username)
                 QMessageBox.information(self, "User deleted", f"User {username} has been deleted")
         except Exception as e:
             QMessageBox.warning(self, "Unable to delete user", f"Please select a user from the table\n{e}")
@@ -104,7 +106,7 @@ class UserListWindow(QWidget, Ui_Users):
         user_type = self.UserTypeSelector.currentIndex()
         row = 0
         role = "Undefined"
-        response = backend.list_users(user_type)
+        response = auth_backend.list_users(user_type)
         self.UserTable.clearContents()
         self.UserTable.setRowCount(len(response.users))
         for user in response.users:
@@ -233,7 +235,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.AppointmentButton.clicked.connect(self.showAppointmentBook)
         self.ListUsersButton.clicked.connect(self.list_users)
         self.LogoutButton.clicked.connect(self.exit_func)
+        self.ListPatientsButton.clicked.connect(self.list_patients)
     
+    @QtCore.Slot()
+    def list_patients(self):
+        self.ListPatientsWindow = Patient.DetailsWindow(patient_backend)
+        self.ListPatientsWindow.show()
+
     @QtCore.Slot()
     def exit_func(self):
         exit()
@@ -255,13 +263,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.Slot()
     def createUser(self):
-        self.CreateUserWindow = CreateUser.Window(backend)
+        self.CreateUserWindow = CreateUser.Window(auth_backend)
         self.CreateUserWindow.show()
         
 
-
 if __name__ == "__main__":
-    backend = auth.accounts()
+    auth_backend = auth.accounts()
+    patient_backend = patient.PatientManager()
     app = QtWidgets.QApplication(sys.argv)
     
     window = LoginWindow()

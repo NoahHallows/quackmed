@@ -6,9 +6,10 @@ import _credentials
 # import generated code
 import auth_pb2_grpc
 
-# import your modules
+# import our modules
 from auth.interceptor import AuthInterceptor
 from auth.service import AuthService
+from patient.service import PatientService
 #from data.service import DataService
 
 _LISTEN_ADDRESS_TEMPLATE = "localhost:%d"

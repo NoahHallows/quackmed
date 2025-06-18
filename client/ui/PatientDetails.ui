@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>PatientDetails</class>
+ <widget class="QWidget" name="PatientDetails">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -55,9 +55,9 @@
     <widget class="QTextEdit" name="NotesEdit"/>
    </item>
    <item row="4" column="1">
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="DialogButtons">
      <property name="standardButtons">
-      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+      <set>QDialogButtonBox::StandardButton::Apply|QDialogButtonBox::StandardButton::Cancel</set>
      </property>
     </widget>
    </item>

@@ -102,6 +102,13 @@
       </property>
      </spacer>
     </item>
+    <item row="2" column="4">
+     <widget class="QPushButton" name="ListPatientsButton">
+      <property name="text">
+       <string>List Patients</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">

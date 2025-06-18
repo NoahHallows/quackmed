@@ -48,61 +48,69 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="EditUserButton">
-     <property name="text">
-      <string>Edit user</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="EditUserButton">
+       <property name="text">
+        <string>Edit user</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="CreateUserButton">
+       <property name="text">
+        <string>Create user</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="DeleteUserButton">
+       <property name="text">
+        <string>Delete user</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="DeleteUserButton">
-     <property name="text">
-      <string>Delete user</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="CreateUserButton">
-     <property name="text">
-      <string>Create user</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>User role</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QComboBox" name="UserTypeSelector">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <property name="text">
-       <string>All</string>
-      </property>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>User role</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>Doctor</string>
-      </property>
+      <widget class="QComboBox" name="UserTypeSelector">
+       <item>
+        <property name="text">
+         <string>All</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Doctor</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Nurse</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Admin</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Receptionist</string>
+        </property>
+       </item>
+      </widget>
      </item>
-     <item>
-      <property name="text">
-       <string>Nurse</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Admin</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Receptionist</string>
-      </property>
-     </item>
-    </widget>
+    </layout>
    </item>
    <item>
     <widget class="QPushButton" name="CloseButton">
