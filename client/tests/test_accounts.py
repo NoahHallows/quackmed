@@ -215,6 +215,22 @@ class TestListUsers(unittest.TestCase):
             self.assertIsNotNone(user_dict.get(username))
             self.assertEqual(user_dict[username], 4)
 
+    class TestGetUserDetails(unittest.TestCase):
+        def setUp(self):
+            self.account_manager = accounts()
+            self.account_manager.login("noah", "amicia")
+        
+        def test_get_user_1(self):
+            username = "test_get_user_details_" + ''.join(random.choices(string.ascii_letters, k=5))
+            res = self.account_manager.create_account(username, "afsafsa", 2)
+            self.assertTrue(res)
+            res = self.account_manager.get_user_details(username)
+            self.assertEqual(res, 2)
+
+            # Then delete it
+            delete_result = self.account_manager.delete_user(username)
+            self.assertTrue(delete_result)
+
 
 if __name__ == '__main__':
     unittest.main()
