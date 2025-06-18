@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\"3\n\rlogin_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\".\n\x0clogin_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"\'\n\x13user_exists_request\x12\x10\n\x08username\x18\x01 \x01(\t\"&\n\x14user_exists_response\x12\x0e\n\x06\x65xists\x18\x01 \x01(\x08\" \n\x0csalt_request\x12\x10\n\x08username\x18\x01 \x01(\t\"\x1d\n\rpassword_salt\x12\x0c\n\x04salt\x18\x01 \x01(\x0c\"\"\n\x0fregister_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\"W\n\x10register_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\x12\x0c\n\x04salt\x18\x03 \x01(\x0c\x12\x11\n\tuser_type\x18\x04 \x01(\x05\"\"\n\x0e\x64\x65lete_request\x12\x10\n\x08username\x18\x01 \x01(\t\" \n\rdelete_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x1f\n\x0elogout_request\x12\r\n\x05token\x18\x01 \x01(\t\"\"\n\x0flogout_response\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\'\n\x12list_users_request\x12\x11\n\tuser_type\x18\x01 \x01(\x05\"3\n\x0cuser_details\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x11\n\tuser_type\x18\x02 \x01(\x05\"2\n\x12list_user_response\x12\x1c\n\x05users\x18\x01 \x03(\x0b\x32\r.user_details2\xe8\x02\n\x0b\x41uthService\x12(\n\x07GetSalt\x12\r.salt_request\x1a\x0e.password_salt\x12&\n\x05Login\x12\x0e.login_request\x1a\r.login_result\x12\x34\n\rCreateAccount\x12\x11.register_request\x1a\x10.register_result\x12>\n\x0f\x43heckUserExists\x12\x14.user_exists_request\x1a\x15.user_exists_response\x12-\n\nDeleteUser\x12\x0f.delete_request\x1a\x0e.delete_result\x12+\n\x06Logout\x12\x0f.logout_request\x1a\x10.logout_response\x12\x35\n\tListUsers\x12\x13.list_users_request\x1a\x13.list_user_responseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\"3\n\rlogin_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\".\n\x0clogin_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"\'\n\x13user_exists_request\x12\x10\n\x08username\x18\x01 \x01(\t\"&\n\x14user_exists_response\x12\x0e\n\x06\x65xists\x18\x01 \x01(\x08\" \n\x0csalt_request\x12\x10\n\x08username\x18\x01 \x01(\t\"\x1d\n\rpassword_salt\x12\x0c\n\x04salt\x18\x01 \x01(\x0c\"\"\n\x0fregister_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\"W\n\x10register_request\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\x0c\x12\x0c\n\x04salt\x18\x03 \x01(\x0c\x12\x11\n\tuser_type\x18\x04 \x01(\x05\"\"\n\x0e\x64\x65lete_request\x12\x10\n\x08username\x18\x01 \x01(\t\" \n\rdelete_result\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x1f\n\x0elogout_request\x12\r\n\x05token\x18\x01 \x01(\t\"\"\n\x0flogout_response\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\'\n\x12list_users_request\x12\x11\n\tuser_type\x18\x01 \x01(\x05\"3\n\x0cuser_details\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x11\n\tuser_type\x18\x02 \x01(\x05\"(\n\x14user_details_request\x12\x10\n\x08username\x18\x01 \x01(\t\"2\n\x12list_user_response\x12\x1c\n\x05users\x18\x01 \x03(\x0b\x32\r.user_details2\x9d\x03\n\x0b\x41uthService\x12(\n\x07GetSalt\x12\r.salt_request\x1a\x0e.password_salt\x12&\n\x05Login\x12\x0e.login_request\x1a\r.login_result\x12\x34\n\rCreateAccount\x12\x11.register_request\x1a\x10.register_result\x12>\n\x0f\x43heckUserExists\x12\x14.user_exists_request\x1a\x15.user_exists_response\x12-\n\nDeleteUser\x12\x0f.delete_request\x1a\x0e.delete_result\x12+\n\x06Logout\x12\x0f.logout_request\x1a\x10.logout_response\x12\x35\n\tListUsers\x12\x13.list_users_request\x1a\x13.list_user_response\x12\x33\n\x0bGetUserInfo\x12\x15.user_details_request\x1a\r.user_detailsb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -59,8 +59,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_LIST_USERS_REQUEST']._serialized_end=564
   _globals['_USER_DETAILS']._serialized_start=566
   _globals['_USER_DETAILS']._serialized_end=617
-  _globals['_LIST_USER_RESPONSE']._serialized_start=619
-  _globals['_LIST_USER_RESPONSE']._serialized_end=669
-  _globals['_AUTHSERVICE']._serialized_start=672
-  _globals['_AUTHSERVICE']._serialized_end=1032
+  _globals['_USER_DETAILS_REQUEST']._serialized_start=619
+  _globals['_USER_DETAILS_REQUEST']._serialized_end=659
+  _globals['_LIST_USER_RESPONSE']._serialized_start=661
+  _globals['_LIST_USER_RESPONSE']._serialized_end=711
+  _globals['_AUTHSERVICE']._serialized_start=714
+  _globals['_AUTHSERVICE']._serialized_end=1127
 # @@protoc_insertion_point(module_scope)

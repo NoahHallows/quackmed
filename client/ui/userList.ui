@@ -23,6 +23,9 @@
    </item>
    <item>
     <widget class="QTableWidget" name="UserTable">
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
      <row/>
      <row/>
      <row/>
@@ -42,6 +45,13 @@
        <string>Name</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="EditUserButton">
+     <property name="text">
+      <string>Edit user</string>
+     </property>
     </widget>
    </item>
    <item>

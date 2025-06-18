@@ -68,13 +68,14 @@ class Ui_CreateUser(object):
 
         self.formLayout.setWidget(5, QFormLayout.ItemRole.SpanningRole, self.DialogButton)
 
-        self.label_4 = QLabel(CreateUser)
-        self.label_4.setObjectName(u"label_4")
+        self.TitleLable = QLabel(CreateUser)
+        self.TitleLable.setObjectName(u"TitleLable")
 
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.label_4)
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.TitleLable)
 
         self.PasswordConfirmEdit = QLineEdit(CreateUser)
         self.PasswordConfirmEdit.setObjectName(u"PasswordConfirmEdit")
+        self.PasswordConfirmEdit.setEchoMode(QLineEdit.EchoMode.Password)
 
         self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.PasswordConfirmEdit)
 
@@ -99,7 +100,7 @@ class Ui_CreateUser(object):
         self.UserTypeSelector.setItemText(2, QCoreApplication.translate("CreateUser", u"Admin", None))
         self.UserTypeSelector.setItemText(3, QCoreApplication.translate("CreateUser", u"Recepionist", None))
 
-        self.label_4.setText(QCoreApplication.translate("CreateUser", u"Create user", None))
+        self.TitleLable.setText(QCoreApplication.translate("CreateUser", u"Create user", None))
         self.label_5.setText(QCoreApplication.translate("CreateUser", u"Confirm\n"
 "password", None))
     # retranslateUi

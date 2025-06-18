@@ -44,6 +44,11 @@ class Ui_Users(object):
 
         self.verticalLayout.addWidget(self.UserTable)
 
+        self.EditUserButton = QPushButton(Users)
+        self.EditUserButton.setObjectName(u"EditUserButton")
+
+        self.verticalLayout.addWidget(self.EditUserButton)
+
         self.label_2 = QLabel(Users)
         self.label_2.setObjectName(u"label_2")
 
@@ -77,6 +82,7 @@ class Ui_Users(object):
         ___qtablewidgetitem.setText(QCoreApplication.translate("Users", u"Role", None));
         ___qtablewidgetitem1 = self.UserTable.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("Users", u"Name", None));
+        self.EditUserButton.setText(QCoreApplication.translate("Users", u"Edit user", None))
         self.label_2.setText(QCoreApplication.translate("Users", u"User role", None))
         self.UserTypeSelector.setItemText(0, QCoreApplication.translate("Users", u"All", None))
         self.UserTypeSelector.setItemText(1, QCoreApplication.translate("Users", u"Doctor", None))

@@ -69,6 +69,11 @@ class AuthServiceStub(object):
                 request_serializer=auth__pb2.list_users_request.SerializeToString,
                 response_deserializer=auth__pb2.list_user_response.FromString,
                 _registered_method=True)
+        self.GetUserInfo = channel.unary_unary(
+                '/AuthService/GetUserInfo',
+                request_serializer=auth__pb2.user_details_request.SerializeToString,
+                response_deserializer=auth__pb2.user_details.FromString,
+                _registered_method=True)
 
 
 class AuthServiceServicer(object):
@@ -116,6 +121,12 @@ class AuthServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetUserInfo(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AuthServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -153,6 +164,11 @@ def add_AuthServiceServicer_to_server(servicer, server):
                     servicer.ListUsers,
                     request_deserializer=auth__pb2.list_users_request.FromString,
                     response_serializer=auth__pb2.list_user_response.SerializeToString,
+            ),
+            'GetUserInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUserInfo,
+                    request_deserializer=auth__pb2.user_details_request.FromString,
+                    response_serializer=auth__pb2.user_details.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -344,6 +360,33 @@ class AuthService(object):
             '/AuthService/ListUsers',
             auth__pb2.list_users_request.SerializeToString,
             auth__pb2.list_user_response.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetUserInfo(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/AuthService/GetUserInfo',
+            auth__pb2.user_details_request.SerializeToString,
+            auth__pb2.user_details.FromString,
             options,
             channel_credentials,
             insecure,

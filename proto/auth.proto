@@ -69,6 +69,11 @@ message user_details {
   int32 user_type = 2;
 }
 
+// Get user details
+message user_details_request {
+  string username = 1;
+}
+
 message list_user_response {
   repeated user_details users = 1;
 }
@@ -81,5 +86,6 @@ service AuthService {
   rpc DeleteUser(delete_request) returns (delete_result);
   rpc Logout(logout_request) returns (logout_response);
   rpc ListUsers(list_users_request) returns (list_user_response);
+  rpc GetUserInfo(user_details_request) returns (user_details);
 }
 

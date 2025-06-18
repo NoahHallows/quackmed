@@ -45,6 +45,23 @@ class UserListWindow(QWidget, Ui_Users):
         self.setupUi(self)
         self.CloseButton.clicked.connect(self.close_window)
         self.UserTypeSelector.currentIndexChanged.connect(self.populateTable)
+        self.UserTable.cellDoubleClicked.connect(self.show_user_details)
+        self.EditUserButton.clicked.connect(self.show_user_details)
+
+    @QtCore.Slot()
+    def show_user_details(self):
+        try:
+            current_row = self.UserTable.currentRow()
+            username = self.UserTable.item(current_row, 1).text()
+            print(username)
+        except Exception as e:
+            print(e)
+            return
+        self.CreateUserWindow = CreateUser.Window(backend)
+        self.CreateUserWindow.EditUser(str(username))
+        self.CreateUserWindow.show()
+
+
    
     @QtCore.Slot()
     def close_window(self):
@@ -183,7 +200,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.DeleteUserButton.clicked.connect(self.deleteUser)
         self.AppointmentButton.clicked.connect(self.showAppointmentBook)
         self.ListUsersButton.clicked.connect(self.list_users)
-
+        self.LogoutButton.clicked.connect(self.exit_func)
+    
+    @QtCore.Slot()
+    def exit_func(self):
+        exit()
 
     @QtCore.Slot()
     def list_users(self):

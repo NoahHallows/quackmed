@@ -83,12 +83,13 @@ class AuthService(auth_pb2_grpc.AuthService):
         print(f"Create user {request.username}")
         # Check user doesn't exist
         cur.execute("SELECT 1 FROM users WHERE username = %s;", (request.username,))
-        if cur.fetchone() is None:
-            cur.execute("INSERT INTO users (username, password_hash, salt, type) VALUES (%s, %s, %s, %s)", (request.username, request.password, request.salt, request.user_type))
+        if cur.fetchone() is not None:
+            cur.execute("DELETE FROM users WHERE username = %s", (request.username,))
             conn.commit()
-            return auth_pb2.register_result(success=True)
-        else:
-            return auth_pb2.register_result(success=False)
+
+        cur.execute("INSERT INTO users (username, password_hash, salt, type) VALUES (%s, %s, %s, %s)", (request.username, request.password, request.salt, request.user_type))
+        return auth_pb2.register_result(success=True)
+
 
     def DeleteUser(self, request, context):
         print(f"Delete user {request.username}")
@@ -122,6 +123,11 @@ class AuthService(auth_pb2_grpc.AuthService):
             users.append(auth_pb2.user_details(username=row[0], user_type=row[1]))
 
         return auth_pb2.list_user_response(users=users)
-        
+    
+    def GetUserInfo(self, request, context):
+        print(f"Getting info for user {request.username}")
+        cur.execute("SELECT type FROM users WHERE username = %s", (request.username,))
+        row = cur.fetchone()
+        return auth_pb2.user_details(username=request.username, user_type=row[0])
 
 

@@ -53,8 +53,9 @@ class accounts:
         except:
             return False
         # Check user exists, if user does then fail
-        response = self.stub.CheckUserExists(auth_pb2.user_exists_request(username=username))
-        if not response.exists:
+        #response = self.stub.CheckUserExists(auth_pb2.user_exists_request(username=username))
+        #if not response.exists:
+        if True:
             # Hash password and generate salt, username, hashed password and salt are then sent to the server to be stored in the db
             salt = bcrypt.gensalt()
             password_hash = bcrypt.hashpw(password.encode(), salt)
@@ -84,7 +85,13 @@ class accounts:
         response = self.stub.Logout(auth_pb2.logout_request(token=TOKEN))
         self.conn.set_token("unauthorised")
         self.stub = self.conn.get_stub(auth_pb2_grpc.AuthServiceStub)
+
     def list_users(self, user_type):
         # TODO: use strings instead of ints for user type
         response = self.stub.ListUsers(auth_pb2.list_users_request(user_type=user_type))
         return response
+
+    def get_user_details(self, username):
+        response = self.stub.GetUserInfo(auth_pb2.user_details_request(username=username))
+        user_type = response.user_type
+        return user_type
