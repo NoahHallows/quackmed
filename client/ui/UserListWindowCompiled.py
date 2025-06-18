@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QHeaderView, QLabel,
-    QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QHeaderView,
+    QLabel, QPushButton, QSizePolicy, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Users(object):
     def setupUi(self, Users):
@@ -41,6 +41,7 @@ class Ui_Users(object):
         if (self.UserTable.rowCount() < 9):
             self.UserTable.setRowCount(9)
         self.UserTable.setObjectName(u"UserTable")
+        self.UserTable.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
         self.verticalLayout.addWidget(self.UserTable)
 
@@ -48,6 +49,11 @@ class Ui_Users(object):
         self.EditUserButton.setObjectName(u"EditUserButton")
 
         self.verticalLayout.addWidget(self.EditUserButton)
+
+        self.DeleteUserButton = QPushButton(Users)
+        self.DeleteUserButton.setObjectName(u"DeleteUserButton")
+
+        self.verticalLayout.addWidget(self.DeleteUserButton)
 
         self.label_2 = QLabel(Users)
         self.label_2.setObjectName(u"label_2")
@@ -83,6 +89,7 @@ class Ui_Users(object):
         ___qtablewidgetitem1 = self.UserTable.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("Users", u"Name", None));
         self.EditUserButton.setText(QCoreApplication.translate("Users", u"Edit user", None))
+        self.DeleteUserButton.setText(QCoreApplication.translate("Users", u"Delete user", None))
         self.label_2.setText(QCoreApplication.translate("Users", u"User role", None))
         self.UserTypeSelector.setItemText(0, QCoreApplication.translate("Users", u"All", None))
         self.UserTypeSelector.setItemText(1, QCoreApplication.translate("Users", u"Doctor", None))

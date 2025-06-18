@@ -47,20 +47,46 @@ class UserListWindow(QWidget, Ui_Users):
         self.UserTypeSelector.currentIndexChanged.connect(self.populateTable)
         self.UserTable.cellDoubleClicked.connect(self.show_user_details)
         self.EditUserButton.clicked.connect(self.show_user_details)
+        self.DeleteUserButton.clicked.connect(self.delete_user)
 
     @QtCore.Slot()
     def show_user_details(self):
         try:
             current_row = self.UserTable.currentRow()
             username = self.UserTable.item(current_row, 1).text()
-            print(username)
         except Exception as e:
-            print(e)
+            QMessageBox.warning(self, "Unable to edit user", f"Please select a user from the table\n{e}")
             return
         self.CreateUserWindow = CreateUser.Window(backend)
         self.CreateUserWindow.EditUser(str(username))
         self.CreateUserWindow.show()
 
+    @QtCore.Slot()
+    def delete_user(self):
+        try:
+            current_row = self.UserTable.currentRow()
+            username = self.UserTable.item(current_row, 1).text()
+            # Show confirmation dialog
+            confirm = QMessageBox.question(
+                self,
+                "Confirm Deletion",
+                f"Are you sure you want to delete user '{username}'?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+
+            if confirm == QMessageBox.Yes:
+                backend.delete_user(username)
+                QMessageBox.information(self, "User deleted", f"User {username} has been deleted")
+                self.populateTable()  # Optionally refresh table after deletion
+            else:
+                # Optional: show cancellation message
+                QMessageBox.information(self, "Cancelled", "User deletion cancelled.")
+                backend.delete_user(username)
+                QMessageBox.information(self, "User deleted", f"User {username} has been deleted")
+        except Exception as e:
+            QMessageBox.warning(self, "Unable to delete user", f"Please select a user from the table\n{e}")
+            return
 
    
     @QtCore.Slot()
