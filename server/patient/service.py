@@ -57,7 +57,10 @@ class PatientService(patient_pb2_grpc.PatientService):
 
 
     def ListPatients(self, request, context):
-        cur.execute("SELECT id FROM patients WHERE first_name = %s AND last_name = %s", (request.first_name, request.last_name))
+        if request.first_name == "*" and request.last_name == "*":
+            cur.execute("SELECT id FROM patients")
+        else:
+            cur.execute("SELECT id FROM patients WHERE first_name = %s AND last_name = %s", (request.first_name, request.last_name))
         rows = cur.fetchall()
         patients = []
         for row in rows:

@@ -42,6 +42,14 @@ class Ui_PatientList(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.PatientTable = QTableWidget(PatientList)
+        if (self.PatientTable.columnCount() < 3):
+            self.PatientTable.setColumnCount(3)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.PatientTable.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.PatientTable.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.PatientTable.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         self.PatientTable.setObjectName(u"PatientTable")
 
         self.verticalLayout.addWidget(self.PatientTable)
@@ -75,6 +83,12 @@ class Ui_PatientList(object):
     def retranslateUi(self, PatientList):
         PatientList.setWindowTitle(QCoreApplication.translate("PatientList", u"Patient list", None))
         self.label.setText(QCoreApplication.translate("PatientList", u"Search", None))
+        ___qtablewidgetitem = self.PatientTable.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("PatientList", u"First name", None));
+        ___qtablewidgetitem1 = self.PatientTable.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("PatientList", u"Last name", None));
+        ___qtablewidgetitem2 = self.PatientTable.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("PatientList", u"Date of birth", None));
         self.NewPatientButton.setText(QCoreApplication.translate("PatientList", u"New patient", None))
         self.EditPatientButton.setText(QCoreApplication.translate("PatientList", u"Edit patient", None))
         self.CloseButton.setText(QCoreApplication.translate("PatientList", u"Close", None))

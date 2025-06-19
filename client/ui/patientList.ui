@@ -29,7 +29,26 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableWidget" name="PatientTable"/>
+    <widget class="QTableWidget" name="PatientTable">
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <column>
+      <property name="text">
+       <string>First name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Last name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date of birth</string>
+      </property>
+     </column>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
