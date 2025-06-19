@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rpatient.proto\"-\n\x17patient_details_request\x12\x12\n\npatient_id\x18\x01 \x01(\x05\"h\n\x0fpatient_details\x12\x12\n\npatient_id\x18\x01 \x01(\x05\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\r\n\x05notes\x18\x04 \x01(\t\x12\x0b\n\x03\x64ob\x18\x05 \x01(\t\"m\n\x15list_patients_request\x12\x12\n\npatient_id\x18\x01 \x01(\x05\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\x19\n\x11number_of_results\x18\x04 \x01(\x05\";\n\x16list_patients_response\x12!\n\x07patient\x18\x01 \x03(\x0b\x32\x10.patient_details\"*\n\x17\x63reate_patient_response\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xcf\x01\n\x0ePatientService\x12;\n\rCreatePatient\x12\x10.patient_details\x1a\x18.create_patient_response\x12?\n\x11GetPatientDetails\x12\x18.patient_details_request\x1a\x10.patient_details\x12?\n\x0cListPatients\x12\x16.list_patients_request\x1a\x17.list_patients_responseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rpatient.proto\"-\n\x17patient_details_request\x12\x12\n\npatient_id\x18\x01 \x01(\x05\"h\n\x0fpatient_details\x12\x12\n\npatient_id\x18\x01 \x01(\x05\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\r\n\x05notes\x18\x04 \x01(\t\x12\x0b\n\x03\x64ob\x18\x05 \x01(\t\"m\n\x15list_patients_request\x12\x12\n\npatient_id\x18\x01 \x01(\x05\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\x19\n\x11number_of_results\x18\x04 \x01(\x05\"<\n\x16list_patients_response\x12\"\n\x08patients\x18\x01 \x03(\x0b\x32\x10.patient_details\">\n\x17\x63reate_patient_response\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x12\n\npatient_id\x18\x02 \x01(\x05\"*\n\x17\x64\x65lete_patient_response\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\x94\x02\n\x0ePatientService\x12;\n\rCreatePatient\x12\x10.patient_details\x1a\x18.create_patient_response\x12?\n\x11GetPatientDetails\x12\x18.patient_details_request\x1a\x10.patient_details\x12?\n\x0cListPatients\x12\x16.list_patients_request\x1a\x17.list_patients_response\x12\x43\n\rDeletePatient\x12\x18.patient_details_request\x1a\x18.delete_patient_responseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,9 +38,11 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_LIST_PATIENTS_REQUEST']._serialized_start=170
   _globals['_LIST_PATIENTS_REQUEST']._serialized_end=279
   _globals['_LIST_PATIENTS_RESPONSE']._serialized_start=281
-  _globals['_LIST_PATIENTS_RESPONSE']._serialized_end=340
-  _globals['_CREATE_PATIENT_RESPONSE']._serialized_start=342
-  _globals['_CREATE_PATIENT_RESPONSE']._serialized_end=384
-  _globals['_PATIENTSERVICE']._serialized_start=387
-  _globals['_PATIENTSERVICE']._serialized_end=594
+  _globals['_LIST_PATIENTS_RESPONSE']._serialized_end=341
+  _globals['_CREATE_PATIENT_RESPONSE']._serialized_start=343
+  _globals['_CREATE_PATIENT_RESPONSE']._serialized_end=405
+  _globals['_DELETE_PATIENT_RESPONSE']._serialized_start=407
+  _globals['_DELETE_PATIENT_RESPONSE']._serialized_end=449
+  _globals['_PATIENTSERVICE']._serialized_start=452
+  _globals['_PATIENTSERVICE']._serialized_end=728
 # @@protoc_insertion_point(module_scope)

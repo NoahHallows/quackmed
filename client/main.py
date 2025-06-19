@@ -105,7 +105,7 @@ class UserListWindow(QWidget, Ui_Users):
     def populateTable(self):
         user_type = self.UserTypeSelector.currentIndex()
         row = 0
-        role = "Undefined"
+        role = 0
         response = auth_backend.list_users(user_type)
         self.UserTable.clearContents()
         self.UserTable.setRowCount(len(response.users))
@@ -239,7 +239,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     @QtCore.Slot()
     def list_patients(self):
-        self.ListPatientsWindow = Patient.DetailsWindow(patient_backend)
+        self.ListPatientsWindow = Patient.ListWindow(patient_backend)
         self.ListPatientsWindow.show()
 
     @QtCore.Slot()

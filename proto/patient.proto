@@ -20,10 +20,15 @@ message list_patients_request {
 }
 
 message list_patients_response {
-  repeated patient_details patient = 1;
+  repeated patient_details patients = 1;
 }
 
 message create_patient_response {
+  bool success = 1;
+  int32 patient_id = 2;
+}
+
+message delete_patient_response {
   bool success = 1;
 }
 
@@ -31,4 +36,5 @@ service PatientService {
   rpc CreatePatient(patient_details) returns (create_patient_response);
   rpc GetPatientDetails(patient_details_request) returns (patient_details);
   rpc ListPatients(list_patients_request) returns (list_patients_response);
+  rpc DeletePatient(patient_details_request) returns (delete_patient_response);
 }

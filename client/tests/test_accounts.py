@@ -87,7 +87,7 @@ class TestCreateAccount(unittest.TestCase):
         self.assertTrue(delete_result)
 
 class TestLogin(unittest.TestCase):
-    # Don't worry about the success variable because its just for the ui
+    # Don't worry about the msg variable because its just for the GUI
     def setUp(self):
         self.account_manager = accounts()
     

@@ -49,6 +49,11 @@ class PatientServiceStub(object):
                 request_serializer=patient__pb2.list_patients_request.SerializeToString,
                 response_deserializer=patient__pb2.list_patients_response.FromString,
                 _registered_method=True)
+        self.DeletePatient = channel.unary_unary(
+                '/PatientService/DeletePatient',
+                request_serializer=patient__pb2.patient_details_request.SerializeToString,
+                response_deserializer=patient__pb2.delete_patient_response.FromString,
+                _registered_method=True)
 
 
 class PatientServiceServicer(object):
@@ -72,6 +77,12 @@ class PatientServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def DeletePatient(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_PatientServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -89,6 +100,11 @@ def add_PatientServiceServicer_to_server(servicer, server):
                     servicer.ListPatients,
                     request_deserializer=patient__pb2.list_patients_request.FromString,
                     response_serializer=patient__pb2.list_patients_response.SerializeToString,
+            ),
+            'DeletePatient': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeletePatient,
+                    request_deserializer=patient__pb2.patient_details_request.FromString,
+                    response_serializer=patient__pb2.delete_patient_response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -172,6 +188,33 @@ class PatientService(object):
             '/PatientService/ListPatients',
             patient__pb2.list_patients_request.SerializeToString,
             patient__pb2.list_patients_response.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeletePatient(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/PatientService/DeletePatient',
+            patient__pb2.patient_details_request.SerializeToString,
+            patient__pb2.delete_patient_response.FromString,
             options,
             channel_credentials,
             insecure,

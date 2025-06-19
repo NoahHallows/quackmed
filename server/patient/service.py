@@ -36,10 +36,24 @@ class PatientService(patient_pb2_grpc.PatientService):
         print(len(request.dob))
         cur.execute("INSERT INTO patients (first_name, last_name, notes, date_of_birth) values (%s, %s, %s, %s)", (request.first_name, request.last_name, request.notes, request.dob))
         conn.commit()
-        return patient_pb2.create_patient_response(success=True)
+        cur.execute("SELECT id FROM patients WHERE first_name = %s AND last_name = %s and date_of_birth = %s and notes = %s", (request.first_name, request.last_name, request.dob, request.notes))
+        row = cur.fetchone()
+        patient_id = row[0]
+        print(f"Patient id: {patient_id}")
+        return patient_pb2.create_patient_response(success=True, patient_id=patient_id)
 
     def GetPatientDetails(self, request, context):
-        pass
+        cur.execute("SELECT * FROM patients WHERE id = %s", (request.patient_id,))
+        patient_data = cur.fetchone()
+        id = patient_data[0]
+        first_name = patient_data[1]
+        last_name = patient_data[2]
+        notes = patient_data[3]
+        dob = patient_data[4]
+        print(f"firstname = {first_name}, last_name: {last_name}, notes={notes}, dob: {dob}")
+        return patient_pb2.patient_details(patient_id=request.patient_id, first_name=first_name, last_name=last_name, notes=notes, dob=dob)
+
+
 
 
     def ListPatients(self, request, context):
@@ -58,4 +72,13 @@ class PatientService(patient_pb2_grpc.PatientService):
             patients.append(patient_pb2.patient_details(patient_id=id, first_name=first_name, last_name=last_name, notes=notes, dob=dob))
 
         return patient_pb2.list_patients_response(patients=patients)
+
+    def DeletePatient(self, request, context):
+        try:
+            cur.execute("DELETE FROM patients WHERE id = %s", (request.patient_id,))
+            conn.commit()
+            return patient_pb2.create_patient_response(success=True)
+        except Exception as e:
+            print(f"Error deleting user: {e}")
+            return patient_pb2.create_patient_response(success=False)
 

@@ -41,10 +41,10 @@ class Ui_PatientList(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.tableWidget = QTableWidget(PatientList)
-        self.tableWidget.setObjectName(u"tableWidget")
+        self.PatientTable = QTableWidget(PatientList)
+        self.PatientTable.setObjectName(u"PatientTable")
 
-        self.verticalLayout.addWidget(self.tableWidget)
+        self.verticalLayout.addWidget(self.PatientTable)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")

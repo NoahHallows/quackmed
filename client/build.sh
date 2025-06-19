@@ -11,3 +11,5 @@ python -m grpc_tools.protoc -I ../proto --python_out=. \
 
 python -m grpc_tools.protoc -I ../proto --python_out=. \
          --grpc_python_out=. ../proto/appointment_book.proto
+
+python -m grpc_tools.protoc -I ../proto --python_out=. --grpc_python_out=. ../proto/patient.proto
