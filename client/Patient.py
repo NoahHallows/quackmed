@@ -47,7 +47,6 @@ class ListWindow(QWidget, Ui_PatientList):
         self.NewPatientButton.clicked.connect(self.create_patient)
         self.EditPatientButton.clicked.connect(self.show_patient_details)
         self.PatientTable.cellDoubleClicked.connect(self.show_patient_details)
-        # Connect the signal to refresh the table when patient is updated
         self.populate_table()
 
     @QtCore.Slot()

@@ -3,6 +3,7 @@ from PySide6 import QtCore
 from PySide6.QtWidgets import QMessageBox, QWidget, QDialogButtonBox
 
 class Window(QWidget, Ui_CreateUser):
+    update_table = QtCore.Signal()
     def __init__(self, auth_backend):
         super().__init__()
         self.setupUi(self)
@@ -34,6 +35,7 @@ class Window(QWidget, Ui_CreateUser):
                     msgBox.setText("User modified")
                 msgBox.setIcon(QMessageBox.Icon.Information)
                 msgBox.exec()
+                self.update_table.emit()
                 self.close()
 
         else:

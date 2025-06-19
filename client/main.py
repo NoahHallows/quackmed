@@ -55,6 +55,7 @@ class UserListWindow(QWidget, Ui_Users):
     @QtCore.Slot()
     def createUser(self):
         self.CreateUserWindow = CreateUser.Window(auth_backend)
+        self.CreateUserWindow.update_table.connect(self.populateTable)
         self.CreateUserWindow.show()
 
     @QtCore.Slot()
