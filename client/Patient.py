@@ -57,9 +57,10 @@ class ListWindow(QWidget, Ui_PatientList):
         except Exception as e:
             QMessageBox.warning(self, "Unable to edit user", f"Please select a user from the table\n{e}")
             return
-        self.CreateUserWindow = CreateUser.Window(auth_backend)
-        self.CreateUserWindow.EditUser(self.patient_ids[current_row])
-        self.CreateUserWindow.show() 
+        self.details_window = DetailsWindow(self.backend)
+        self.details_window.show_patient_details(self.patient_ids[current_row])
+        self.details_window.update_table.connect(self.populate_table)
+        self.details_window.show() 
 
     @QtCore.Slot()
     def create_patient(self):
